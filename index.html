@@ -6,14 +6,12 @@
     <title>PRUEBAS</title>
 </head>
 <body>
-    <script>
-        var callbackFunction = function(data) {
-          var wind = data.query.results.channel.item.condition.temp;
-          alert(wind);
-        };
+<script>
+       
       </script>
       
-      <script src="https://query.yahooapis.com/v1/public/yql?q=select * from weather.forecast where woeid in (select woeid from geo.places(1) where text='madrid, es') and u='c'&format=json&callback=callbackFunction"></script>
+      <script src="js/app.js"></script>
       
 </body>
+<input type="text" name="buscar" id="buscar">
 </html>
