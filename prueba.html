@@ -1,1 +1,19 @@
-ssdasdsa
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+  
+    <title>PRUEBAS</title>
+</head>
+<body>
+    <script>
+        var callbackFunction = function(data) {
+          var wind = data.query.results.channel.item.condition.temp;
+          alert(wind);
+        };
+      </script>
+      
+      <script src="https://query.yahooapis.com/v1/public/yql?q=select * from weather.forecast where woeid in (select woeid from geo.places(1) where text='madrid, es') and u='c'&format=json&callback=callbackFunction"></script>
+      
+</body>
+</html>
