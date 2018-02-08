@@ -22,7 +22,7 @@ function mostrarTiempo() {
   // Preparamos la funcion de respuesta
   peticionHttp.onreadystatechange = muestraContenido;
   // Realizamos peticion HTTP
-  peticionHttp.open('GET', "https://query.yahooapis.com/v1/public/yql?q=select * from weather.forecast where woeid in (select woeid from geo.places(1) where text='"+buscar.value+", es') and u='c'&format=json", true);
+  peticionHttp.open('GET', "https://query.yahooapis.com/v1/public/yql?q=select * from weather.forecast where woeid in (select woeid from geo.places(1) where text='"+buscar.value+"') and u='c'&format=json", true);
   peticionHttp.send(null);
   function muestraContenido() {
     if(peticionHttp.readyState == 4) {
