@@ -4,6 +4,7 @@ window.onload=function(){
   paises = document.getElementById("paises");
   temperatura=document.getElementById("temperatura");
   codigoActual="AF";
+  pais="Afganistan";
   //listaCreada=false;
   anadirPaises();
   //listaCreada=true;
@@ -45,13 +46,22 @@ function mostrarTiempo() {
   peticionHttp.open('GET', "https://query.yahooapis.com/v1/public/yql?q=select * from weather.forecast where woeid in (select woeid from geo.places(1) where text='"+ciudad.value+","+codigoActual+"') and u='c'&format=json", true);
   peticionHttp.send(null);
   function muestraContenido() {
+   
     if(peticionHttp.readyState == 4) {
       if(peticionHttp.status == 200) {
         //Creamos el objeto de tipo JSON
         var json = peticionHttp.responseText;
         var objetoJson=eval("("+json+")"); //Con esto queremos que javascript lo entienda como un array
         //Obtenemos la raíz del JSON
-        temperatura.innerHTML = objetoJson.query.results.channel.item.condition.temp;
+        var query=objetoJson.query;
+        
+        if(query.count==0||query.results.channel.location.country=="Espirito Santo"&&codigoActual!="BR"){
+          temperatura.innerHTML = "No existe la ciudad";
+
+        }else{
+          temperatura.innerHTML = query.results.channel.item.condition.temp;
+
+        }
        
       }
     }
