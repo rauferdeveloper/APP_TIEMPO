@@ -2,6 +2,7 @@ window.onload=function(){
   ciudad = document.getElementById("ciudad");
   buscar=document.getElementById("buscar");
   paises = document.getElementById("paises");
+  temperatura=document.getElementById("temperatura");
   codigoActual="AF";
   //listaCreada=false;
   anadirPaises();
@@ -50,8 +51,7 @@ function mostrarTiempo() {
         var json = peticionHttp.responseText;
         var objetoJson=eval("("+json+")"); //Con esto queremos que javascript lo entienda como un array
         //Obtenemos la raíz del JSON
-        var wind = objetoJson.query.results.channel.item.condition.temp;
-        alert(wind);
+        temperatura.innerHTML = objetoJson.query.results.channel.item.condition.temp;
        
       }
     }
