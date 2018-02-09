@@ -1,11 +1,17 @@
 window.onload=function(){
-  buscar = document.getElementById("buscar");
+  ciudad = document.getElementById("ciudad");
+  buscar=document.getElementById("buscar")
   document.onkeydown=function(elEvento){
     var evento = window.event||elEvento;
     if(evento.keyCode==13){
       mostrarTiempo();
+      ciudad.value="";
 
     }
+  }
+  buscar.onclick=function(){
+    mostrarTiempo();
+      ciudad.value="";
   }
 }
 
@@ -22,7 +28,7 @@ function mostrarTiempo() {
   // Preparamos la funcion de respuesta
   peticionHttp.onreadystatechange = muestraContenido;
   // Realizamos peticion HTTP
-  peticionHttp.open('GET', "https://query.yahooapis.com/v1/public/yql?q=select * from weather.forecast where woeid in (select woeid from geo.places(1) where text='"+buscar.value+"') and u='c'&format=json", true);
+  peticionHttp.open('GET', "https://query.yahooapis.com/v1/public/yql?q=select * from weather.forecast where woeid in (select woeid from geo.places(1) where text='"+ciudad.value+",es') and u='c'&format=json", true);
   peticionHttp.send(null);
   function muestraContenido() {
     if(peticionHttp.readyState == 4) {
@@ -38,3 +44,4 @@ function mostrarTiempo() {
     }
   }
 }
+/*https://github.com/umpirsky/country-list para los paises hay que filtrar por los continentes */
