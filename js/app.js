@@ -4,7 +4,7 @@ window.onload=function(){
   paises = document.getElementById("paises");
   temperatura=document.getElementById("temperatura");
   codigoActual="AF";
-  pais="Afganistan";
+  paisActual="Afghanistan";
   //listaCreada=false;
   anadirPaises();
   //listaCreada=true;
@@ -25,8 +25,10 @@ window.onload=function(){
     var indice = this.selectedIndex;
 
     var opcionSeleccionada = this.options[indice];
-     texto= opcionSeleccionada.text;
-     buscarCodigo(texto); 
+    codigoActual=opcionSeleccionada.id;
+    buscarCodigo();
+
+     
 
   }
 }
@@ -46,16 +48,17 @@ function mostrarTiempo() {
   peticionHttp.open('GET', "https://query.yahooapis.com/v1/public/yql?q=select * from weather.forecast where woeid in (select woeid from geo.places(1) where text='"+ciudad.value+","+codigoActual+"') and u='c'&format=json", true);
   peticionHttp.send(null);
   function muestraContenido() {
-   
     if(peticionHttp.readyState == 4) {
       if(peticionHttp.status == 200) {
+        console.log(codigoActual);
+
         //Creamos el objeto de tipo JSON
         var json = peticionHttp.responseText;
         var objetoJson=eval("("+json+")"); //Con esto queremos que javascript lo entienda como un array
         //Obtenemos la raíz del JSON
         var query=objetoJson.query;
         
-        if(query.count==0||query.results.channel.location.country=="Espirito Santo"&&codigoActual!="BR"){
+        if(query.count==0||query.results.channel.location.country!=paisActual){
           temperatura.innerHTML = "No existe la ciudad";
 
         }else{
@@ -68,11 +71,12 @@ function mostrarTiempo() {
   }
 }
 
-function crearLista(padre,texto){
+function crearLista(padre,texto,codigo){
   opcion = document.createElement("option");
   opcion.setAttribute("value",texto);
   textoLista = document.createTextNode(texto);
   opcion.appendChild(textoLista);
+  opcion.id=codigo;
   padre.appendChild(opcion);
 }
 
@@ -102,14 +106,15 @@ function anadirPaises() {
           nombre=valores[clave];
 
         
-          crearLista(paises,nombre);
+          crearLista(paises,nombre,clave);
 
         }
       }
     }
   }
 }
-function buscarCodigo(nombrePais) {
+
+function buscarCodigo() {
 
   // Obtener la instancia del objeto XMLHttpRequest
   if(window.XMLHttpRequest) {
@@ -121,7 +126,7 @@ function buscarCodigo(nombrePais) {
   // Preparamos la funcion de respuesta
   peticionHttp.onreadystatechange = muestraContenido;
   // Realizamos peticion HTTP
-  peticionHttp.open('GET', 'json/paises.json', true);
+  peticionHttp.open('GET', 'json/paisesen.json', true);
   peticionHttp.send(null);
   function muestraContenido() {
     if(peticionHttp.readyState == 4) {
@@ -133,8 +138,9 @@ function buscarCodigo(nombrePais) {
         //Recorremos el array
         for(var clave in valores){
           nombre=valores[clave];
-          if(nombrePais==nombre){
-            codigoActual=clave;
+          if(codigoActual==clave){
+            paisActual=nombre;
+            alert(paisActual);
           }
         }
       }
