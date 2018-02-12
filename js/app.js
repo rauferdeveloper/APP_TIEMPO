@@ -7,9 +7,9 @@ window.onload=function(){
 
   imagenes = new Array();
   textosPrevisiones=new Array()
-
-  imagenes[0]=document.createElement("img");
-  textosPrevisiones[0]=document.createElement("p");
+  condiciones = new Array("tornado","tormenta tropical","huracanes","tormentas severas","tormentas eléctricas","lluvia mixta y nieve","lluvia mixta y aguanieve","nieve mixta y aguanieve","llovizna helada","llovizna","lluvia helada","llovizna","llovizna","ráfagas de nieve","chubascos de nieve","ventisca","nieve","granizo","aguanieve","polvo","niebla","bruma","niebla","borrascoso","viento","frío","nublado","mayormente nublado (noche)","mayormente nublado (día)","parcialmente nublado (noche)","parcialmente nublado (día)","claro (noche)","soleado","soleado (noche)","soleado (día)","lluvia mixta y granizo","caliente","tormentas aisladas","tormentas dispersas","tormentas dispersas","lluvias dispersas","nieve pesada","copos de nieve dispersos","nieve pesada","parcialmente nublado","tormenta de truenos","nevadas","tormentas de truenos aisladas","no disponible(3200)"); 
+  imagenActual=document.createElement("img");
+  textosPrevisionActual=document.createElement("p");
   existe=false;
   codigoActual="AF";
   paisActual="Afghanistan";
@@ -76,17 +76,14 @@ function mostrarTiempo() {
         if(query.count==0||query.results.channel.location.country!=paisActual&&codigoActual!="EA"){
           temperatura.innerHTML = "No existe la ciudad";
           if(existe){
-            for(var i=1; i < imagenes.length;i++){
+            for(var i=0; i < imagenes.length;i++){
               cuerpo.removeChild(imagenes[i]);
-              
-            }
-            for(var i=1; i < textosPrevisiones.length;i++){
               cuerpo.removeChild(textosPrevisiones[i]);
+
               
             }
-            cuerpo.removeChild(textosPrevisiones[0]);
-            cuerpo.removeChild(textosPrevisiones[0]);
-
+            cuerpo.removeChild(imagenActual);
+            textosPrevisionActual.innerHTML="";
             existe=false;
           }
 
@@ -95,25 +92,27 @@ function mostrarTiempo() {
           temperatura.innerHTML = primeraLetraMayuscula(ciudadActual)+","+pais;
           //query.results.channel.item.condition.temp;
           temperatura.style.top="100px";
-          imagenes[0].src="img/icons/"+query.results.channel.item.condition.code+".png";
-          imagenes[0].style.width="100px";
-          imagenes[0].style.height="100px";
-          imagenes[0].style.position="absolute";
-          textosPrevisiones[0].style.position="absolute";
-          textosPrevisiones[0].style.top="200px";
-          textosPrevisiones[0].style.width="50%";
-          textosPrevisiones[0].style.height="70px";
-          textosPrevisiones[0].innerHTML="Temperatura actual : "+query.results.channel.item.condition.temp+"<br>"+"Humedad: "+query.results.channel.atmosphere.humidity;
+          imagenActual.src="img/icons/"+query.results.channel.item.condition.code+".png";
+          imagenActual.style.width="100px";
+          imagenActual.style.height="100px";
+          imagenActual.style.position="absolute";
+          imagenActual.style.top="90px";
+          textosPrevisionActual.style.position="absolute";
+          textosPrevisionActual.style.top=parseInt(imagenActual.style.top)+"px";
+          textosPrevisionActual.style.width="50%";
+          textosPrevisionActual.style.height="70px";
+          textosPrevisionActual.style.left=parseInt(imagenActual.style.width)+5+"px";
+          textosPrevisionActual.innerHTML="Temperatura actual : "+query.results.channel.item.condition.temp+"<br>"+"Humedad: "+query.results.channel.atmosphere.humidity;
 
-          cuerpo.appendChild(imagenes[0]);
-          cuerpo.appendChild(textosPrevisiones[0]);
+          cuerpo.appendChild(imagenActual);
+          cuerpo.appendChild(textosPrevisionActual);
 
          
           dias=query;
           dias=query.results.channel.item.forecast;
-          alert(dias.length);
+         // alert(dias.length);
             if(!existe){
-              for(var i=1; i < dias.length;i++){
+              for(var i=0; i < dias.length;i++){
 
                 imagenes[i]=document.createElement("img");
                 imagenes[i].style.position="absolute";
@@ -121,10 +120,10 @@ function mostrarTiempo() {
                 imagenes[i].src="img/icons/"+dias[i].code+".png";
                 imagenes[i].style.width="80px";
                 imagenes[i].style.height="80px";
-                imagenes[i].style.top=parseInt(textosPrevisiones[0].style.height)+parseInt(textosPrevisiones[0].style.top)+5+"px";
+                imagenes[i].style.top=parseInt(textosPrevisionActual.style.height)+parseInt(textosPrevisionActual.style.top)+25+"px";
                 
     
-                if(i==1){
+                if(i==0){
                   imagenes[i].style.left="0px";
     
                 }else{
@@ -134,10 +133,10 @@ function mostrarTiempo() {
                 textosPrevisiones[i]=document.createElement("p");
                 textosPrevisiones[i].style.position="absolute";
                 textosPrevisiones[i].style.top=parseInt(imagenes[i].style.height)+parseInt(imagenes[i].style.top)+5+"px";
-                textosPrevisiones[i].style.width="10%";
+                textosPrevisiones[i].style.width="8%";
                 textosPrevisiones[i].style.height="70px";
                 textosPrevisiones[i].style.left=imagenes[i].style.left;
-                textosPrevisiones[i].innerHTML=dias[i].date+"<br> max "+dias[i].high+"°"+"&nbspmin "+dias[i].low+"°";
+                textosPrevisiones[i].innerHTML=dias[i].date+"<br> max "+dias[i].high+"°"+"&nbspmin "+dias[i].low+"°"+"<br>"+primeraLetraMayuscula(condiciones[dias[i].code]);
                 cuerpo.appendChild(imagenes[i]);
                 cuerpo.appendChild(textosPrevisiones[i]);
 
@@ -145,9 +144,9 @@ function mostrarTiempo() {
             existe=true;
 
           }else{
-            for(var i=1; i < dias.length;i++){
+            for(var i=0; i < dias.length;i++){
               imagenes[i].src="img/icons/"+dias[i].code+".png";
-              textosPrevisiones[i].innerHTML=dias[i].date+"<br> max "+dias[i].high+"°"+"&nbspmin "+dias[i].low+"°";
+              textosPrevisiones[i].innerHTML=dias[i].date+"<br> max "+dias[i].high+"°"+"&nbspmin "+dias[i].low+"°"+"<br>"+primeraLetraMayuscula(condiciones[dias[i].code]);
 
             }
 
@@ -231,7 +230,7 @@ function buscarCodigo() {
           nombre=valores[clave];
           if(codigoActual==clave){
             paisActual=nombre;
-            alert(paisActual);
+            //alert(paisActual);
           }
         }
       }
