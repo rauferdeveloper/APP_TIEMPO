@@ -1,7 +1,7 @@
 {
     "query": {
      "count": 1,
-     "created": "2018-02-09T20:11:41Z",
+     "created": "2018-02-11T17:45:48Z",
      "lang": "es-ES",
      "results": {
       "channel": {
@@ -11,31 +11,31 @@
         "speed": "km/h",
         "temperature": "C"
        },
-       "title": "Yahoo! Weather - Espirito Santo, BR",
-       "link": "http://us.rd.yahoo.com/dailynews/rss/weather/Country__Country/*https://weather.yahoo.com/country/state/city-2344851/",
-       "description": "Yahoo! Weather for Espirito Santo, BR",
+       "title": "Yahoo! Weather - Madrid, Madrid, ES",
+       "link": "http://us.rd.yahoo.com/dailynews/rss/weather/Country__Country/*https://weather.yahoo.com/country/state/city-766273/",
+       "description": "Yahoo! Weather for Madrid, Madrid, ES",
        "language": "en-us",
-       "lastBuildDate": "Fri, 09 Feb 2018 06:11 PM BRST",
+       "lastBuildDate": "Sun, 11 Feb 2018 06:45 PM CET",
        "ttl": "60",
        "location": {
-        "city": "Espirito Santo",
-        "country": "Brazil",
-        "region": " BR"
+        "city": "Madrid",
+        "country": "Spain",
+        "region": " Madrid"
        },
        "wind": {
-        "chill": "82",
-        "direction": "68",
-        "speed": "17.70"
+        "chill": "55",
+        "direction": "270",
+        "speed": "28.97"
        },
        "atmosphere": {
-        "humidity": "73",
-        "pressure": "33694.58",
+        "humidity": "47",
+        "pressure": "31933.66",
         "rising": "0",
         "visibility": "25.91"
        },
        "astronomy": {
-        "sunrise": "6:32 am",
-        "sunset": "7:22 pm"
+        "sunrise": "8:13 am",
+        "sunset": "6:46 pm"
        },
        "image": {
         "title": "Yahoo! Weather",
@@ -45,100 +45,100 @@
         "url": "http://l.yimg.com/a/i/brand/purplelogo//uh/us/news-wea.gif"
        },
        "item": {
-        "title": "Conditions for Espirito Santo, BR at 05:00 PM BRST",
-        "lat": "-19.59634",
-        "long": "-40.771049",
-        "link": "http://us.rd.yahoo.com/dailynews/rss/weather/Country__Country/*https://weather.yahoo.com/country/state/city-2344851/",
-        "pubDate": "Fri, 09 Feb 2018 05:00 PM BRST",
+        "title": "Conditions for Madrid, Madrid, ES at 06:00 PM CET",
+        "lat": "40.421429",
+        "long": "-3.67163",
+        "link": "http://us.rd.yahoo.com/dailynews/rss/weather/Country__Country/*https://weather.yahoo.com/country/state/city-766273/",
+        "pubDate": "Sun, 11 Feb 2018 06:00 PM CET",
         "condition": {
          "code": "30",
-         "date": "Fri, 09 Feb 2018 05:00 PM BRST",
-         "temp": "27",
+         "date": "Sun, 11 Feb 2018 06:00 PM CET",
+         "temp": "14",
          "text": "Partly Cloudy"
         },
         "forecast": [
          {
-          "code": "47",
-          "date": "09 Feb 2018",
-          "day": "Fri",
-          "high": "29",
-          "low": "23",
-          "text": "Scattered Thunderstorms"
-         },
-         {
-          "code": "28",
-          "date": "10 Feb 2018",
-          "day": "Sat",
-          "high": "30",
-          "low": "22",
-          "text": "Mostly Cloudy"
-         },
-         {
-          "code": "28",
+          "code": "30",
           "date": "11 Feb 2018",
           "day": "Sun",
-          "high": "31",
-          "low": "21",
+          "high": "15",
+          "low": "0",
+          "text": "Partly Cloudy"
+         },
+         {
+          "code": "28",
+          "date": "12 Feb 2018",
+          "day": "Mon",
+          "high": "9",
+          "low": "3",
+          "text": "Mostly Cloudy"
+         },
+         {
+          "code": "28",
+          "date": "13 Feb 2018",
+          "day": "Tue",
+          "high": "8",
+          "low": "-2",
+          "text": "Mostly Cloudy"
+         },
+         {
+          "code": "28",
+          "date": "14 Feb 2018",
+          "day": "Wed",
+          "high": "10",
+          "low": "3",
+          "text": "Mostly Cloudy"
+         },
+         {
+          "code": "28",
+          "date": "15 Feb 2018",
+          "day": "Thu",
+          "high": "13",
+          "low": "5",
+          "text": "Mostly Cloudy"
+         },
+         {
+          "code": "28",
+          "date": "16 Feb 2018",
+          "day": "Fri",
+          "high": "13",
+          "low": "6",
           "text": "Mostly Cloudy"
          },
          {
           "code": "30",
-          "date": "12 Feb 2018",
-          "day": "Mon",
-          "high": "30",
-          "low": "20",
-          "text": "Partly Cloudy"
-         },
-         {
-          "code": "30",
-          "date": "13 Feb 2018",
-          "day": "Tue",
-          "high": "32",
-          "low": "22",
-          "text": "Partly Cloudy"
-         },
-         {
-          "code": "47",
-          "date": "14 Feb 2018",
-          "day": "Wed",
-          "high": "29",
-          "low": "22",
-          "text": "Scattered Thunderstorms"
-         },
-         {
-          "code": "30",
-          "date": "15 Feb 2018",
-          "day": "Thu",
-          "high": "29",
-          "low": "22",
-          "text": "Partly Cloudy"
-         },
-         {
-          "code": "47",
-          "date": "16 Feb 2018",
-          "day": "Fri",
-          "high": "30",
-          "low": "22",
-          "text": "Scattered Thunderstorms"
-         },
-         {
-          "code": "47",
           "date": "17 Feb 2018",
           "day": "Sat",
-          "high": "30",
-          "low": "22",
-          "text": "Scattered Thunderstorms"
+          "high": "12",
+          "low": "5",
+          "text": "Partly Cloudy"
          },
          {
-          "code": "47",
+          "code": "30",
           "date": "18 Feb 2018",
           "day": "Sun",
-          "high": "30",
-          "low": "22",
-          "text": "Scattered Thunderstorms"
+          "high": "11",
+          "low": "3",
+          "text": "Partly Cloudy"
+         },
+         {
+          "code": "30",
+          "date": "19 Feb 2018",
+          "day": "Mon",
+          "high": "9",
+          "low": "1",
+          "text": "Partly Cloudy"
+         },
+         {
+          "code": "30",
+          "date": "20 Feb 2018",
+          "day": "Tue",
+          "high": "10",
+          "low": "1",
+          "text": "Partly Cloudy"
          }
         ],
-        "description": "<![CDATA[<img src=\"http://l.yimg.com/a/i/us/we/52/30.gif\"/>\n<BR />\n<b>Current Conditions:</b>\n<BR />Partly Cloudy\n<BR />\n<BR />\n<b>Forecast:</b>\n<BR /> Fri - Scattered Thunderstorms. High: 29Low: 23\n<BR /> Sat - Mostly Cloudy. High: 30Low: 22\n<BR /> Sun - Mostly Cloudy. High: 31Low: 21\n<BR /> Mon - Partly Cloudy. High: 30Low: 20\n<BR /> Tue - Partly Cloudy. High: 32Low: 22\n<BR />\n<BR />\n<a href=\"http://us.rd.yahoo.com/dailynews/rss/weather/Country__Country/*https://weather.yahoo.com/country/state/city-2344851/\">Full Forecast at Yahoo! Weather</a>\n<BR />\n<BR />\n<BR />\n]]>",
+        "description": "<![CDATA[<img src=\"http://l.yimg.com/a/i/us/we/52/30.gif\"/>\n<BR />\n<b>Current Conditions:</b>\n<BR />Partly Cloudy\n<BR />\n<BR />\n<b>Forecast:</b>\n<BR /> Sun - Partly Cloudy. High: 15Low: 0\n<BR /> Mon - Mostly Cloudy. High: 9Low: 3\n<BR /> Tue - Mostly Cloudy. High: 8Low: -2\n<BR /> Wed - Mostly Cloudy. High: 10Low: 3\n<BR /> Thu - Mostly Cloudy. High: 13Low: 5\n<BR />\n<BR />\n<a href=\"http://us.rd.yahoo.com/dailynews/rss/weather/Country__Country/*https://weather.yahoo.com/country/state/city-766273/\">Full Forecast at Yahoo! Weather</a>\n<BR />\n<BR />\n<BR />\n]]>",
         "guid": {
          "isPermaLink": "false"
         }

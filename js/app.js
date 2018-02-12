@@ -1,29 +1,27 @@
 window.onload=function(){
-  caja =document.getElementById("caja");
-  caja.style.width="100%";
-  caja.style.height="100%";
-  caja.style.backgroundColor="red";
-  caja.style.position="relative";
+  cuerpo=document.body;
   ciudad = document.getElementById("ciudad");
-
   buscar=document.getElementById("buscar");
   paises = document.getElementById("paises");
   temperatura=document.getElementById("temperatura");
-  imagen=document.getElementById("imagen");
 
   imagenes = new Array();
+  textosPrevisiones=new Array()
 
-  document.body.appendChild(imagen);
+  imagenes[0]=document.createElement("img");
+  textosPrevisiones[0]=document.createElement("p");
   existe=false;
   codigoActual="AF";
   paisActual="Afghanistan";
- 
-  //listaCreada=false;
+  pais="Afganist\u00e1n";
+  ciudadActual="";
+
   anadirPaises();
-  //listaCreada=true;
   document.onkeydown=function(elEvento){
     var evento = window.event||elEvento;
     if(evento.keyCode==13){
+      ciudadActual=ciudad.value;
+
       mostrarTiempo();
       ciudad.value="";
 
@@ -31,6 +29,8 @@ window.onload=function(){
     }
   }
   buscar.onclick=function(){
+    ciudadActual=ciudad.value;
+
     mostrarTiempo();
       ciudad.value="";
   }
@@ -40,6 +40,7 @@ window.onload=function(){
 
     var opcionSeleccionada = this.options[indice];
     codigoActual=opcionSeleccionada.id;
+     pais=opcionSeleccionada.text;
     buscarCodigo();
 
      
@@ -74,55 +75,82 @@ function mostrarTiempo() {
         
         if(query.count==0||query.results.channel.location.country!=paisActual&&codigoActual!="EA"){
           temperatura.innerHTML = "No existe la ciudad";
-          imagen.src="";
-          imagen.style.width="";
-          imagen.style.height="";
           if(existe){
-            for(var i=0; i < imagenes.length;i++){
-              caja.removeChild(imagenes[i]);
+            for(var i=1; i < imagenes.length;i++){
+              cuerpo.removeChild(imagenes[i]);
               
             }
+            for(var i=1; i < textosPrevisiones.length;i++){
+              cuerpo.removeChild(textosPrevisiones[i]);
+              
+            }
+            cuerpo.removeChild(textosPrevisiones[0]);
+            cuerpo.removeChild(textosPrevisiones[0]);
+
             existe=false;
           }
+
        
         }else{
-         
-          temperatura.innerHTML = query.results.channel.item.condition.temp;
+          temperatura.innerHTML = primeraLetraMayuscula(ciudadActual)+","+pais;
+          //query.results.channel.item.condition.temp;
+          temperatura.style.top="100px";
+          imagenes[0].src="img/icons/"+query.results.channel.item.condition.code+".png";
+          imagenes[0].style.width="100px";
+          imagenes[0].style.height="100px";
+          imagenes[0].style.position="absolute";
+          textosPrevisiones[0].style.position="absolute";
+          textosPrevisiones[0].style.top="200px";
+          textosPrevisiones[0].style.width="50%";
+          textosPrevisiones[0].style.height="70px";
+          textosPrevisiones[0].innerHTML="Temperatura actual : "+query.results.channel.item.condition.temp+"<br>"+"Humedad: "+query.results.channel.atmosphere.humidity;
 
-          imagen.src="img/icons/"+query.results.channel.item.condition.code+".png";
-          imagen.style.width="5%";
-          imagen.style.height="5%";
+          cuerpo.appendChild(imagenes[0]);
+          cuerpo.appendChild(textosPrevisiones[0]);
 
          
           dias=query;
           dias=query.results.channel.item.forecast;
-
+          alert(dias.length);
             if(!existe){
-              for(var i=0; i < dias.length;i++){
+              for(var i=1; i < dias.length;i++){
 
                 imagenes[i]=document.createElement("img");
+                imagenes[i].style.position="absolute";
+
                 imagenes[i].src="img/icons/"+dias[i].code+".png";
-                imagenes[i].style.width="5%";
-                imagenes[i].style.height="5%";
-                imagenes[i].style.position="relative";
-                imagenes[i].style.marginTop=parseInt(imagen.style.height)+5+"%";
+                imagenes[i].style.width="80px";
+                imagenes[i].style.height="80px";
+                imagenes[i].style.top=parseInt(textosPrevisiones[0].style.height)+parseInt(textosPrevisiones[0].style.top)+5+"px";
+                
     
-                if(i==0){
-                  imagenes[i].style.left="0%";
+                if(i==1){
+                  imagenes[i].style.left="0px";
     
                 }else{
-                  imagenes[i].style.left=parseInt(imagenes[i-1].style.left)+parseInt(imagenes[i-1].style.width)+"%";
+                  imagenes[i].style.left=parseInt(imagenes[i-1].style.left)+parseInt(imagenes[i-1].style.width)+50+"px";
     
                 }
-              
-                caja.appendChild(imagenes[i]);
+                textosPrevisiones[i]=document.createElement("p");
+                textosPrevisiones[i].style.position="absolute";
+                textosPrevisiones[i].style.top=parseInt(imagenes[i].style.height)+parseInt(imagenes[i].style.top)+5+"px";
+                textosPrevisiones[i].style.width="10%";
+                textosPrevisiones[i].style.height="70px";
+                textosPrevisiones[i].style.left=imagenes[i].style.left;
+                textosPrevisiones[i].innerHTML=dias[i].date+"<br> max "+dias[i].high+"°"+"&nbspmin "+dias[i].low+"°";
+                cuerpo.appendChild(imagenes[i]);
+                cuerpo.appendChild(textosPrevisiones[i]);
+
             }
             existe=true;
 
           }else{
-            for(var i=0; i < dias.length;i++){
+            for(var i=1; i < dias.length;i++){
               imagenes[i].src="img/icons/"+dias[i].code+".png";
+              textosPrevisiones[i].innerHTML=dias[i].date+"<br> max "+dias[i].high+"°"+"&nbspmin "+dias[i].low+"°";
+
             }
+
 
           }
               
@@ -210,6 +238,8 @@ function buscarCodigo() {
     }
   }
 }
+function primeraLetraMayuscula(palabra){
+  return palabra.charAt(0).toUpperCase() + palabra.slice(1);
 
-
+}
 /*https://github.com/umpirsky/country-list para los paises */
