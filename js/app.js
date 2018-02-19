@@ -4,7 +4,11 @@ window.onload=function(){
   buscar=document.getElementById("buscar");
   paises = document.getElementById("paises");
   temperatura=document.getElementById("temperatura");
-
+  map=0;
+  longitud=0;
+  latitud=0;
+  pincharEnMapa=false;
+  marker=new google.maps.Marker();
   imagenes = new Array();
   textosPrevisiones=new Array()
   condiciones = new Array("tornado","tormenta tropical","huracanes","tormentas severas","tormentas eléctricas","lluvia mixta y nieve","lluvia mixta y aguanieve","nieve mixta y aguanieve","llovizna helada","llovizna","lluvia helada","llovizna","llovizna","ráfagas de nieve","chubascos de nieve","ventisca","nieve","granizo","aguanieve","polvo","niebla","bruma","niebla","borrascoso","viento","frío","nublado","mayormente nublado (noche)","mayormente nublado (día)","parcialmente nublado (noche)","parcialmente nublado (día)","claro (noche)","soleado","soleado (noche)","soleado (día)","lluvia mixta y granizo","caliente","tormentas aisladas","tormentas dispersas","tormentas dispersas","lluvias dispersas","nieve pesada","copos de nieve dispersos","nieve pesada","parcialmente nublado","tormenta de truenos","nevadas","tormentas de truenos aisladas","no disponible(3200)"); 
@@ -17,11 +21,13 @@ window.onload=function(){
   ciudadActual="";
 
   anadirPaises();
+  mostrarMapa(map);   
+
   document.onkeydown=function(elEvento){
     var evento = window.event||elEvento;
     if(evento.keyCode==13){
       ciudadActual=ciudad.value;
-
+      pincharEnMapa=false;
       mostrarTiempo();
       ciudad.value="";
 
@@ -30,6 +36,8 @@ window.onload=function(){
   }
   buscar.onclick=function(){
     ciudadActual=ciudad.value;
+    pincharEnMapa=false;
+
 
     mostrarTiempo();
       ciudad.value="";
@@ -49,7 +57,17 @@ window.onload=function(){
 }
 
 
-function mostrarTiempo() {  
+function mostrarTiempo() {
+  parametroUno=0;
+  parametro2=1;
+  if(!pincharEnMapa){
+    parametroUno=ciudad.value;
+    parametro2=codigoActual;
+  }else{
+    parametroUno=latitud;
+    parametro2=longitud;
+  }
+    
   // Obtener la instancia del objeto XMLHttpRequest
   if(window.XMLHttpRequest) {
      peticionHttp = new XMLHttpRequest();
@@ -60,7 +78,7 @@ function mostrarTiempo() {
   // Preparamos la funcion de respuesta
   peticionHttp.onreadystatechange = muestraContenido;
   // Realizamos peticion HTTP
-  peticionHttp.open('GET', "https://query.yahooapis.com/v1/public/yql?q=select * from weather.forecast where woeid in (select woeid from geo.places(1) where text='"+ciudad.value+","+codigoActual+"') and u='c'&format=json", true);
+  peticionHttp.open('GET', "https://query.yahooapis.com/v1/public/yql?q=select * from weather.forecast where woeid in (select woeid from geo.places(1) where text='("+parametroUno+","+parametro2+")') and u='c'&format=json", true);
   peticionHttp.send(null);
   function muestraContenido() {
     if(peticionHttp.readyState == 4) {
@@ -89,6 +107,10 @@ function mostrarTiempo() {
 
        
         }else{
+          if(pincharEnMapa){
+            buscarPais(query.results.channel.location.country);
+            ciudadActual=query.results.channel.location.city;
+          }
           temperatura.innerHTML = primeraLetraMayuscula(ciudadActual)+","+pais;
           //query.results.channel.item.condition.temp;
           temperatura.style.top="100px";
@@ -124,7 +146,7 @@ function mostrarTiempo() {
                 
     
                 if(i==0){
-                  imagenes[i].style.left="0px";
+                  imagenes[i].style.left="10px";
     
                 }else{
                   imagenes[i].style.left=parseInt(imagenes[i-1].style.left)+parseInt(imagenes[i-1].style.width)+50+"px";
@@ -152,7 +174,6 @@ function mostrarTiempo() {
 
 
           }
-              
 
         }
        
@@ -232,6 +253,44 @@ function buscarCodigo() {
             paisActual=nombre;
             //alert(paisActual);
           }
+        
+        }
+      }
+    }
+  }
+}
+
+function buscarPais(paisEnIngles) {
+
+  // Obtener la instancia del objeto XMLHttpRequest
+  if(window.XMLHttpRequest) {
+    peticionHttp = new XMLHttpRequest();
+  }
+  else if(window.ActiveXObject) {
+    peticionHttp = new ActiveXObject("Microsoft.XMLHTTP");
+  }
+  // Preparamos la funcion de respuesta
+  peticionHttp.onreadystatechange = muestraContenido;
+  // Realizamos peticion HTTP
+  peticionHttp.open('GET', 'json/paisesen.json', true);
+  peticionHttp.send(null);
+  function muestraContenido() {
+    if(peticionHttp.readyState == 4) {
+      if(peticionHttp.status == 200) {
+        //Creamos el objeto de tipo JSON
+        var json = peticionHttp.responseText;
+        var objetoJson=eval("("+json+")"); //Con esto queremos que javascript lo entienda como un array
+        var valores=objetoJson; 
+        //Recorremos el array
+        for(var clave in valores){
+          nombre=valores[clave];
+          if(paisEnIngles==nombre){
+            paisActual=nombre;
+            pais=paisActual;
+
+            //alert(paisActual);
+          }
+        
         }
       }
     }
@@ -241,4 +300,40 @@ function primeraLetraMayuscula(palabra){
   return palabra.charAt(0).toUpperCase() + palabra.slice(1);
 
 }
+/*function mostrarMapa() {
+  var mapCanvas = document.getElementById("map");
+  mapCanvas.style.position="relative";
+  mapCanvas.style.top=parseInt(textosPrevisiones[textosPrevisiones.length-1].style.height)+parseInt(textosPrevisiones[textosPrevisiones.length-1].style.top)+25+"px";
+  var mapOptions = {
+    center: new google.maps.LatLng(51.508742, -0.120850),
+    zoom: 6
+  };
+  map = new google.maps.Map(mapCanvas, mapOptions);
+}*/
+
+function mostrarMapa(map) {
+  var mapCanvas = document.getElementById("map");
+  mapCanvas.style.position="relative";
+  mapCanvas.style.top="290px";
+  var myCenter=new google.maps.LatLng(51.508742,-0.120850);
+  var mapOptions = {center: myCenter, zoom: 5 ,    scrollwheel:true};
+   map = new google.maps.Map(mapCanvas, mapOptions);
+  google.maps.event.addListener(map, 'click', function(event) {
+    placeMarker(map, event.latLng,mapOptions);
+  });
+}
+
+function placeMarker(map, location,mapOptions) {
+  marker.setPosition(location);
+  marker.setMap(map);
+  pincharEnMapa=true;
+  longitud=location.lng();
+  latitud=location.lat();
+  map.setCenter(new google.maps.LatLng(latitud,longitud));
+  mostrarTiempo();
+}
+
+
 /*https://github.com/umpirsky/country-list para los paises */
+
+/*api key para la api del google maps AIzaSyAJYBfdVFUaj7KVFsJ317ckoFQNJEpsVk0 */ 
