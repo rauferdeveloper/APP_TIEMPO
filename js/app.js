@@ -208,7 +208,7 @@ function mostrarTiempoPincharMapa() {
         //Obtenemos la raíz del JSON
         var query=objetoJson.query;
         
-        if(query.count==0||query.results.channel.location.country!=paisActual&&codigoActual!="EA"){
+        if(query.count==0){
           temperatura.innerHTML = "No existe la ciudad";
           if(existe){
             for(var i=0; i < imagenes.length;i++){
@@ -485,7 +485,6 @@ function geocodeResult(results, status) {
       alert("Geocoding no tuvo éxito debido a: " + status);
   }
 }
-
 
 
 /*https://github.com/umpirsky/country-list para los paises */
