@@ -20,8 +20,8 @@ window.onload=function(){
   paisActual="Afghanistan";
   pais="Afganist\u00e1n";
   ciudadActual="";
+  getLocation();
   anadirPaises();
-  mostrarMapaBusqueda(pais);
   document.onkeydown=function(elEvento){
     var evento = window.event||elEvento;
     if(evento.keyCode==13){
@@ -61,15 +61,7 @@ window.onload=function(){
 
 
 function mostrarTiempoBusqueda() {
-  parametroUno=0;
-  parametro2=1;
-  if(!pincharEnMapa){
-    parametroUno=ciudad.value;
-    parametro2=codigoActual;
-  }else{
-    parametroUno=latitud;
-    parametro2=longitud;
-  }
+ 
     
   // Obtener la instancia del objeto XMLHttpRequest
   if(window.XMLHttpRequest) {
@@ -184,7 +176,7 @@ function mostrarTiempoBusqueda() {
 
 function mostrarTiempoPincharMapa() {
  
-    
+
   // Obtener la instancia del objeto XMLHttpRequest
   if(window.XMLHttpRequest) {
      peticionHttp = new XMLHttpRequest();
@@ -195,7 +187,7 @@ function mostrarTiempoPincharMapa() {
   // Preparamos la funcion de respuesta
   peticionHttp.onreadystatechange = muestraContenido;
   // Realizamos peticion HTTP
-  peticionHttp.open('GET', "https://query.yahooapis.com/v1/public/yql?q=select * from weather.forecast where woeid in (select woeid from geo.places(1) where text='("+latitud+","+longitud+")') and u='c'&format=json", true);
+  peticionHttp.open('GET', "https://query.yahooapis.com/v1/public/yql?q=select * from weather.forecast where woeid in (select woeid from geo.places(1) where text='("+latitud+","+longitud+")')and u='c' &format=json", true);
   peticionHttp.send(null);
   function muestraContenido() {
     if(peticionHttp.readyState == 4) {
@@ -224,8 +216,10 @@ function mostrarTiempoPincharMapa() {
 
        
         }else{
-            buscarPais(query.results.channel.location.country);
             ciudadActual=query.results.channel.location.city;
+          
+            mostrarMapaBusqueda(ciudadActual);
+
           temperatura.innerHTML = primeraLetraMayuscula(ciudadActual)+","+pais;
           //query.results.channel.item.condition.temp;
           temperatura.style.top="100px";
@@ -446,7 +440,6 @@ function placeMarker(map, location,mapOptions,marker) {
   latitud=location.lat();
   map.setCenter(marker.getPosition());
   mostrarTiempoPincharMapa();
-  mostrarMapaBusqueda(latitud+","+longitud);
 }
 function mostrarMapaBusqueda(direccionActual) {
   var direccion=direccionActual;
@@ -474,11 +467,21 @@ function geocodeResult(results, status) {
       var markerOptions = { position: results[0].geometry.location }
       marker.setOptions(markerOptions);
       marker.setMap(map);
-      //console.log(results[0].address_components);
-      
+      console.log(results[0].address_components);
+    
+
+
       google.maps.event.addListener(map, 'click', function(event) {
         placeMarker(map, event.latLng,mapOptions,marker);
       });
+      for(var i =0; i < results[0].address_components.length;i++ ){
+        types=new Array();
+        types=results[0].address_components[i].types;
+        if(types[0]=="country"){
+          buscarCodigoEnEspanol(results[0].address_components[i].short_name);
+
+        }
+      }
   } else {
       // En caso de no haber resultados o que haya ocurrido un error
       // lanzamos un mensaje con el error
@@ -486,7 +489,53 @@ function geocodeResult(results, status) {
   }
 }
 
+function buscarCodigoEnEspanol(codigo) {
 
+  // Obtener la instancia del objeto XMLHttpRequest
+  if(window.XMLHttpRequest) {
+    peticionHttp = new XMLHttpRequest();
+  }
+  else if(window.ActiveXObject) {
+    peticionHttp = new ActiveXObject("Microsoft.XMLHTTP");
+  }
+  // Preparamos la funcion de respuesta
+  peticionHttp.onreadystatechange = muestraContenido;
+  // Realizamos peticion HTTP
+  peticionHttp.open('GET', 'json/paises.json', true);
+  peticionHttp.send(null);
+  function muestraContenido() {
+    if(peticionHttp.readyState == 4) {
+      if(peticionHttp.status == 200) {
+        //Creamos el objeto de tipo JSON
+        var json = peticionHttp.responseText;
+        var objetoJson=eval("("+json+")"); //Con esto queremos que javascript lo entienda como un array
+        var valores=objetoJson; 
+        //Recorremos el array
+        for(var clave in valores){
+          nombre=valores[clave];
+          if(codigo==clave){
+            paisActual=nombre;
+            pais=paisActual;
+            //alert(paisActual);
+          }
+        
+        }
+      }
+    }
+  }
+}
+function getLocation() {
+  if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(showPosition);
+  } else {
+    alert( "Geolocation is not supported by this browser.");
+  }
+}
+function showPosition(position) {
+  latitud=position.coords.latitude;
+  longitud= position.coords.longitude;
+  mostrarMapaBusqueda(latitud+","+longitud);
+}
 /*https://github.com/umpirsky/country-list para los paises */
 
 /*api key para la api del google maps AIzaSyAJYBfdVFUaj7KVFsJ317ckoFQNJEpsVk0 */ 
