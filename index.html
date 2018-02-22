@@ -5,8 +5,15 @@
   
     <title>PRUEBAS</title>
     <script src="js/app.js"></script>
+    <script src="js/paises.js"></script>
+    <script src="js/paisesen.js"></script>
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAJYBfdVFUaj7KVFsJ317ckoFQNJEpsVk0"
     type="text/javascript"></script>
+    <style>
+        *{
+            font-weight:bold;
+        }
+    </style>
     
 </head>
 <body>
@@ -14,8 +21,8 @@
         <input type="text" name="ciudad" id="ciudad">
         <input type="button" name="buscar" id="buscar" value="Buscar">
         <select id="paises" name="paises"></select>
-        <p id="temperatura"></p>
-        <div id="map" style="width:98%;height:500px"></div>
+        <p id="informacion"></p>
+        <div id="map" style="width:98%;height:400px"></div>
 
     
       
