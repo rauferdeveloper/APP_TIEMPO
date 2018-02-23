@@ -1,24 +1,12 @@
 *{
     font-weight:bold;
 }
-input[type="search"]{
-    width: 45px;
-    background: #ededed url('img/icons/search-icon.png') no-repeat 9px center;
-    padding: 9px 10px 9px 32px;
-    border-radius: 15em;
-    transition: all .5s;
-    outline: none;
-}
-input[type="search"]:focus{
-    width: 130px;
-    padding-left: 32px;
-    color: #000;
-    background-color: #FFF;
-}
+
 body img {
 	margin: 25px;
 	opacity: 0.8;
-	
+    border: 10px solid #eee;
+
 	/*Transition*/
 	-webkit-transition: all 0.5s ease;
 	-moz-transition: all 0.5s ease;

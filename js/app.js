@@ -2,11 +2,13 @@ window.onload=function(){
     cuerpo=document.body;
     ciudad = document.getElementById("ciudad");
     buscar=document.getElementById("buscar");
+
     paises = document.getElementById("paises");
     informacion=document.getElementById("informacion");
     cuerpo =document.body;
     cuerpo.style.backgroundSize="100%";
     cuerpo.style.backgroundImage="url('img/fondoapp.jpg')";
+
     map=0;
     longitud=0;
     latitud=0;
