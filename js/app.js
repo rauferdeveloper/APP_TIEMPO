@@ -49,11 +49,11 @@ window.onload=function(){
     imagenActual=document.createElement("img");
     textosPrevisionActual=document.createElement("p");
     existe=false;
-    codigoActual="AF";
-    paisActual="Afghanistan";
-    pais="Afganist\u00e1n";
+    codigoActual="ES";
+    paisActual="Spain";
+    pais="Espa\u00f1a";
     ciudadActual="";
-    getMiLocalizacion();
+    mostrarMapaBusqueda(pais);
     anadirPaises();
     for(var i =0; i < localStorage.length;i++){
       var identificador=localStorage.key(i);
