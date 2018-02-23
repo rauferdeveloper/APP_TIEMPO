@@ -129,12 +129,12 @@ window.onload=function(){
             imagenActual.style.width="100px";
             imagenActual.style.height="100px";
             imagenActual.style.position="absolute";
-            imagenActual.style.top="80px";
+            imagenActual.style.top="100px";
             textosPrevisionActual.style.position="absolute";
             textosPrevisionActual.style.top=parseInt(imagenActual.style.top)+"px";
             textosPrevisionActual.style.width="50%";
             textosPrevisionActual.style.height="70px";
-            textosPrevisionActual.style.left=parseInt(imagenActual.style.width)+5+"px";
+            textosPrevisionActual.style.left=parseInt(imagenActual.style.width)+20+"px";
             textosPrevisionActual.style.padding="20px";
 
             textosPrevisionActual.innerHTML="Temperatura actual : "+query.results.channel.item.condition.temp+"<br>"+"Humedad: "+query.results.channel.atmosphere.humidity+"<br>Viento: "+query.results.channel.wind.speed;
@@ -155,20 +155,20 @@ window.onload=function(){
                   imagenes[i].src="img/icons/"+dias[i].code+".png";
                   imagenes[i].style.width="80px";
                   imagenes[i].style.height="80px";
-                  imagenes[i].style.top=parseInt(textosPrevisionActual.style.height)+parseInt(textosPrevisionActual.style.top)+25+"px";
+                  imagenes[i].style.top=parseInt(textosPrevisionActual.style.height)+parseInt(textosPrevisionActual.style.top)+75+"px";
                   
       
                   if(i==0){
-                    imagenes[i].style.left="10px";
+                    imagenes[i].style.left="5px";
       
                   }else{
-                    imagenes[i].style.left=parseInt(imagenes[i-1].style.left)+parseInt(imagenes[i-1].style.width)+50+"px";
+                    imagenes[i].style.left=parseInt(imagenes[i-1].style.left)+parseInt(imagenes[i-1].style.width)+55+"px";
       
                   }
                   textosPrevisiones[i]=document.createElement("p");
                   textosPrevisiones[i].style.position="absolute";
-                  textosPrevisiones[i].style.top=parseInt(imagenes[i].style.height)+parseInt(imagenes[i].style.top)+5+"px";
-                  textosPrevisiones[i].style.width="9%";
+                  textosPrevisiones[i].style.top=parseInt(imagenes[i].style.height)+parseInt(imagenes[i].style.top)+10+"px";
+                  textosPrevisiones[i].style.width="10%";
                   textosPrevisiones[i].style.height="70px";
                   textosPrevisiones[i].style.left=imagenes[i].style.left;
                   textosPrevisiones[i].innerHTML=dias[i].date+"<br> max "+dias[i].high+"°"+"&nbspmin "+dias[i].low+"°"+"<br>"+primeraLetraMayuscula(condiciones[dias[i].code]);
@@ -250,12 +250,12 @@ window.onload=function(){
             imagenActual.style.width="100px";
             imagenActual.style.height="100px";
             imagenActual.style.position="absolute";
-            imagenActual.style.top="80px";
+            imagenActual.style.top="100px";
             textosPrevisionActual.style.position="absolute";
             textosPrevisionActual.style.top=parseInt(imagenActual.style.top)+"px";
             textosPrevisionActual.style.width="50%";
             textosPrevisionActual.style.height="70px";
-            textosPrevisionActual.style.left=parseInt(imagenActual.style.width)+5+"px";
+            textosPrevisionActual.style.left=parseInt(imagenActual.style.width)+20+"px";
             textosPrevisionActual.style.padding="20px";
 
             textosPrevisionActual.innerHTML="Temperatura actual : "+query.results.channel.item.condition.temp+"<br>"+"Humedad: "+query.results.channel.atmosphere.humidity+"<br>Viento: "+query.results.channel.wind.speed;
@@ -276,20 +276,20 @@ window.onload=function(){
                   imagenes[i].src="img/icons/"+dias[i].code+".png";
                   imagenes[i].style.width="80px";
                   imagenes[i].style.height="80px";
-                  imagenes[i].style.top=parseInt(textosPrevisionActual.style.height)+parseInt(textosPrevisionActual.style.top)+25+"px";
+                  imagenes[i].style.top=parseInt(textosPrevisionActual.style.height)+parseInt(textosPrevisionActual.style.top)+75+"px";
                   
       
                   if(i==0){
-                    imagenes[i].style.left="10px";
+                    imagenes[i].style.left="5px";
       
                   }else{
-                    imagenes[i].style.left=parseInt(imagenes[i-1].style.left)+parseInt(imagenes[i-1].style.width)+50+"px";
+                    imagenes[i].style.left=parseInt(imagenes[i-1].style.left)+parseInt(imagenes[i-1].style.width)+55+"px";
       
                   }
                   textosPrevisiones[i]=document.createElement("p");
                   textosPrevisiones[i].style.position="absolute";
-                  textosPrevisiones[i].style.top=parseInt(imagenes[i].style.height)+parseInt(imagenes[i].style.top)+5+"px";
-                  textosPrevisiones[i].style.width="9%";
+                  textosPrevisiones[i].style.top=parseInt(imagenes[i].style.height)+parseInt(imagenes[i].style.top)+10+"px";
+                  textosPrevisiones[i].style.width="10%";
                   textosPrevisiones[i].style.height="70px";
                   textosPrevisiones[i].style.left=imagenes[i].style.left;
                   textosPrevisiones[i].innerHTML=dias[i].date+"<br> max "+dias[i].high+"°"+"&nbspmin "+dias[i].low+"°"+"<br>"+primeraLetraMayuscula(condiciones[dias[i].code]);
@@ -303,7 +303,7 @@ window.onload=function(){
               for(var i=0; i < dias.length;i++){
                 imagenes[i].src="img/icons/"+dias[i].code+".png";
                 textosPrevisiones[i].innerHTML=dias[i].date+"<br> max "+dias[i].high+"°"+"&nbspmin "+dias[i].low+"°"+"<br>"+primeraLetraMayuscula(condiciones[dias[i].code]);
-
+             
               }
 
 
@@ -325,72 +325,23 @@ window.onload=function(){
   }
 
   function anadirPaises() {
+    for(var clave in valoresEnEspanol){
+      nombre=valoresEnEspanol[clave];
+      crearLista(paises,nombre,clave);
 
-    // Obtener la instancia del objeto XMLHttpRequest
-    if(window.XMLHttpRequest) {
-      peticionHttp = new XMLHttpRequest();
-    }
-    else if(window.ActiveXObject) {
-      peticionHttp = new ActiveXObject("Microsoft.XMLHTTP");
-    }
-    // Preparamos la funcion de respuesta
-    peticionHttp.onreadystatechange = muestraContenido;
-    // Realizamos peticion HTTP
-    peticionHttp.open('GET', 'json/paises.json', true);
-    peticionHttp.send(null);
-    function muestraContenido() {
-      if(peticionHttp.readyState == 4) {
-        if(peticionHttp.status == 200) {
-          //Creamos el objeto de tipo JSON
-          json = peticionHttp.responseText;
-          objetoJson=eval("("+json+")"); //Con esto queremos que javascript lo entienda como un array
-          valores=objetoJson; 
-          //Recorremos el array
-          for(var clave in valores){
-            nombre=valores[clave];
-
-          
-            crearLista(paises,nombre,clave);
-
-          }
-        }
-      }
-    }
+    }  
   }
 
   function buscarCodigo() {
-
-    // Obtener la instancia del objeto XMLHttpRequest
-    if(window.XMLHttpRequest) {
-      peticionHttp = new XMLHttpRequest();
-    }
-    else if(window.ActiveXObject) {
-      peticionHttp = new ActiveXObject("Microsoft.XMLHTTP");
-    }
-    // Preparamos la funcion de respuesta
-    peticionHttp.onreadystatechange = muestraContenido;
-    // Realizamos peticion HTTP
-    peticionHttp.open('GET', 'json/paisesen.json', true);
-    peticionHttp.send(null);
-    function muestraContenido() {
-      if(peticionHttp.readyState == 4) {
-        if(peticionHttp.status == 200) {
-          //Creamos el objeto de tipo JSON
-          json = peticionHttp.responseText;
-          objetoJson=eval("("+json+")"); //Con esto queremos que javascript lo entienda como un array
-          valores=objetoJson; 
-          //Recorremos el array
-          for(var clave in valores){
-            nombre=valores[clave];
-            if(codigoActual==clave){
-              paisActual=nombre;
-              //alert(paisActual);
-            }
-          
-          }
+      //Recorremos el array
+      for(var clave in valoresEnIngles){
+        nombre=valoresEnIngles[clave];
+        if(codigoActual==clave){
+          paisActual=nombre;
+          //alert(paisActual);
         }
+    
       }
-    }
   }
 
 
@@ -413,20 +364,20 @@ window.onload=function(){
     google.maps.event.addListener(map, 'click', function(event) {
       placeMarker(map, event.latLng,mapOptions,marker);
     });
-    var mapCanvas = document.getElementById("map");
-    mapCanvas.style.position="relative";
-    mapCanvas.style.top="290px";
-    mapCanvas.style.width="98%";
-    mapCanvas.style.height="400px";
+    var mapElemento = document.getElementById("map");
+    mapElemento.style.position="relative";
+    mapElemento.style.top="290px";
+    mapElemento.style.width="98%";
+    mapElemento.style.height="400px";
 
 
     var myCenter=new google.maps.LatLng(51.508742,-0.120850);
-    var mapOptions = {center: myCenter, zoom: 5 ,    scrollwheel:true};
-    map = new google.maps.Map(mapCanvas, mapOptions);
+    var opcionesMapa = {center: myCenter, zoom: 5 ,    scrollwheel:true};
+    map = new google.maps.Map(mapElemento, opcionesMapa);
     
   }
 
-  function placeMarker(map, location,mapOptions,marker) {
+  function placeMarker(map, location,opcionesMapa,marker) {
     markerActual=marker;
     marker.setPosition(location);
     marker.setMap(map);
@@ -446,19 +397,19 @@ window.onload=function(){
     if (status == 'OK') {
         // Si hay resultados encontrados, centramos y repintamos el mapa
         // esto para eliminar cualquier pin antes puesto
-      var mapCanvas = document.getElementById("map");
-    mapCanvas.style.position="relative";
-    mapCanvas.style.top="280px";
-    mapCanvas.style.width="98%";
-    mapCanvas.style.height="290px";
-        var mapOptions = {
+      var mapElemento = document.getElementById("map");
+      mapElemento.style.position="relative";
+      mapElemento.style.top="350px";
+      mapElemento.style.width="99%";
+      mapElemento.style.height="220px";
+        var opcionesMapa = {
             center: results[0].geometry.location,
             mapTypeId: google.maps.MapTypeId.ROADMAP,
             zoom:10,
             scrollwheel:true
                       
         };
-        map = new google.maps.Map(mapCanvas, mapOptions);
+        map = new google.maps.Map(mapElemento, opcionesMapa);
         // fitBounds acercará el mapa con el zoom adecuado de acuerdo a lo buscado
         map.fitBounds(results[0].geometry.viewport);
         // Dibujamos un marcador con la ubicación del primer resultado obtenido
@@ -481,7 +432,7 @@ window.onload=function(){
           }
         }
         google.maps.event.addListener(map, 'click', function(event) {
-          placeMarker(map, event.latLng,mapOptions,marker);
+          placeMarker(map, event.latLng,opcionesMapa,marker);
         });
 
       

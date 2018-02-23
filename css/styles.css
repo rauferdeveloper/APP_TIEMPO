@@ -3,11 +3,16 @@
 }
 
 body img {
-	margin: 25px;
-	opacity: 0.8;
-    border: 10px solid #eee;
+    opacity: 0.8;
+    border: 5px solid #ccc;
+    float: left;
+    margin: 15px;
+    transition: all 1s ease;
 
-	/*Transition*/
+ 
+
+    /*Transition*/
+
 	-webkit-transition: all 0.5s ease;
 	-moz-transition: all 0.5s ease;
 	-o-transition: all 0.5s ease;
@@ -17,14 +22,17 @@ body img {
 }
  
  
-#body img:hover {  
+body img:hover  {  
    opacity: 1;
-   
+
    /*Reflection*/
   -webkit-box-reflect: below 0px -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(.7, transparent), to(rgba(0,0,0,0.4)));
- 
+  margin-top: 2px;
+
    /*Glow*/
-  -webkit-box-shadow: 0px 0px 20px rgba(255,255,255,0.8);
-  -moz-box-shadow: 0px 0px 20px rgba(255,255,255,0.8);
-  box-shadow: 0px 0px 20px rgba(255,255,255,0.8);
+  -webkit-box-shadow: 0px 0px 50px rgba(255,255,255,0.8);
+  -moz-box-shadow: 0px 0px 50px rgba(255,255,255,0.8);
+  box-shadow: 0px 0px 50px rgba(255,255,255,0.8);
 }  
+
+
