@@ -31,6 +31,22 @@
         background-color: #e62727;
 
     }
+    .colorbotonGuardar{
+        background-color: #14f814;
+
+    }
+    .colorbotonBorrar{
+        background-color: #f3a30d;
+
+    }
+    .colorbotonBorrarActual{
+        background-color: #0de4f3;
+
+    }
+    .colorbotonMiUbicacion{
+        background-color: #f3ef0d
+
+    }
     .boton {
         white-space: nowrap;
         line-height:1em;
@@ -108,6 +124,14 @@ body img:hover  {
         <input type="search" name="ciudad" id="ciudad">
         <input type="button" name="buscar" id="buscar" value="Buscar" class="boton colorboton">
         <select id="paises" name="paises"></select>
+        <select id="ubicacionesFavoritas" name="ubicacionesFavoritas"></select>
+
+        <p id="txtUbicacionesFavoritas">Ubicaciones Favoritas</div>
+        <input type="button" name="guardarFavorita" id="guardarUbicacionActual" value="Guardar Ubicacion Actual" class="boton colorbotonGuardar">
+        <input type="button" name="borrarTodas" id="borrarFavoritas" value="Borrar Favoritas" class="boton colorbotonBorrar">
+        <input type="button" name="borrarFavoritaActual" id="borrarFavoritaActual" value="Borrar Favorita Actual" class="boton colorbotonBorrarActual">
+        <input type="button" name="miUbicacion" id="miUbicacion" value="Mi Ubicacion" class="boton colorbotonMiUbicacion">
+
         <p id="informacion"></p>
         <div id="map" ></div>
 

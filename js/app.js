@@ -2,9 +2,34 @@ window.onload=function(){
     cuerpo=document.body;
     ciudad = document.getElementById("ciudad");
     buscar=document.getElementById("buscar");
-
-    paises = document.getElementById("paises");
+    borrarFavoritas=document.getElementById("borrarFavoritas")
+    guardarUbicacionActual=document.getElementById("guardarUbicacionActual");
+    txtUbicacionesFavoritas=document.getElementById("txtUbicacionesFavoritas");
+    ubicacionesFavoritas=document.getElementById("ubicacionesFavoritas");
+    borrarFavoritaActual=document.getElementById("borrarFavoritaActual");
+    miUbicacion=document.getElementById("miUbicacion");
+    ubicacionesFavoritas.style.left="650px";
+    txtUbicacionesFavoritas.style.left="450px";
+    guardarUbicacionActual.style.left="450px";
+    guardarUbicacionActual.style.position="absolute";
+    guardarUbicacionActual.style.top="2px";
+    txtUbicacionesFavoritas.style.top="5px";
+    ubicacionesFavoritas.style.top="20px";
+    ubicacionesFavoritas.style.position="absolute";
+    txtUbicacionesFavoritas.style.position="absolute";
+    txtUbicacionesFavoritas.style.color="aqua";
+    borrarFavoritas.style.top="5%";
+    borrarFavoritas.style.position="absolute";
+    borrarFavoritas.style.left="700px";
+    borrarFavoritaActual.style.marginTop="9%";
+    borrarFavoritaActual.style.position="absolute";
+    borrarFavoritaActual.style.left="700px";
+    miUbicacion.style.top="65px";
+    miUbicacion.style.position="absolute";
+    miUbicacion.style.left="700px";
     informacion=document.getElementById("informacion");
+    clave=0;
+    paises = document.getElementById("paises");
     cuerpo =document.body;
     cuerpo.style.backgroundSize="100%";
     cuerpo.style.backgroundImage="url('img/fondoapp.jpg')";
@@ -28,8 +53,13 @@ window.onload=function(){
     paisActual="Afghanistan";
     pais="Afganist\u00e1n";
     ciudadActual="";
-    getLocation();
+    getMiLocalizacion();
     anadirPaises();
+    for(var i =0; i < localStorage.length;i++){
+      var identificador=localStorage.key(i);
+      var valores=this.localStorage.getItem(identificador);
+      anadirUbicacion(ubicacionesFavoritas,valores,identificador);
+    }
     document.onkeydown=function(elEvento){
       var evento = window.event||elEvento;
       if(evento.keyCode==13){
@@ -37,9 +67,7 @@ window.onload=function(){
         unicaCiudad=ciudadActual.split(",");
         ciudadActual=unicaCiudad[0];
         mostrarMapaBusqueda(ciudadActual+" "+pais);
-
         mostrarTiempoBusqueda();
-
         ciudad.value="";
 
 
@@ -76,8 +104,43 @@ window.onload=function(){
       
 
     }
+    guardarUbicacionActual.onclick=function(){
+      clave=localStorage.length;
+        localStorage.setItem(codigoActual+clave,ciudadActual+","+pais);
+        anadirUbicacion(ubicacionesFavoritas,ciudadActual+","+pais,codigoActual+clave);
+        
+    }
+    ubicacionesFavoritas.onchange=function(){
 
+      var indice = this.selectedIndex;
+      var opcionSeleccionada = this.options[indice];
+      codigoActual=opcionSeleccionada.id;
+      codigoActual=codigoActual.substring(0,2);
+      valores=opcionSeleccionada.text;
+      valores=valores.split(",");
+      ciudadActual=valores[0];
+      pais=valores[1];
+      mostrarMapaBusqueda(ciudadActual+" "+pais);
+      mostrarTiempoBusqueda();
 
+    }
+      borrarFavoritas.onclick=function(){
+        localStorage.clear();
+        while (ubicacionesFavoritas.length > 0) {
+          ubicacionesFavoritas.remove(ubicacionesFavoritas.length-1);
+      }
+    }
+    borrarFavoritaActual.onclick=function(){
+      var indice = ubicacionesFavoritas.selectedIndex;
+      var opcionSeleccionada = ubicacionesFavoritas.options[indice];
+      idActual=opcionSeleccionada.id;
+      localStorage.removeItem(idActual);
+      ubicacionesFavoritas.remove(indice);
+      
+    }
+    miUbicacion.onclick=function(){
+      getMiLocalizacion();
+    }
 
   function mostrarTiempoBusqueda() {
     // Obtener la instancia del objeto XMLHttpRequest
@@ -95,9 +158,9 @@ window.onload=function(){
     function muestraContenido() {
       if(peticionHttp.readyState == 4) {
         if(peticionHttp.status == 200) {
-          console.log(codigoActual);
+          /*console.log(codigoActual);
           console.log(ciudadActual);
-          console.log(paisActual);
+          console.log(paisActual);*/
 
           //Creamos el objeto de tipo JSON
           json = peticionHttp.responseText;
@@ -123,8 +186,11 @@ window.onload=function(){
           }else{
             
             informacion.innerHTML = primeraLetraMayuscula(ciudadActual)+","+query.results.channel.location.region+","+pais;
+          
             //query.results.channel.item.condition.temp;
             informacion.style.top="100px";
+            informacion.style.color="aqua";
+
             imagenActual.src="img/icons/"+query.results.channel.item.condition.code+".png";
             imagenActual.style.width="100px";
             imagenActual.style.height="100px";
@@ -244,8 +310,10 @@ window.onload=function(){
             
 
               informacion.innerHTML = primeraLetraMayuscula(ciudadActual)+","+query.results.channel.location.region+","+pais;
+            
             //query.results.channel.item.condition.temp;
             informacion.style.top="100px";
+            informacion.style.color="aqua";
             imagenActual.src="img/icons/"+query.results.channel.item.condition.code+".png";
             imagenActual.style.width="100px";
             imagenActual.style.height="100px";
@@ -323,6 +391,15 @@ window.onload=function(){
     opcion.id=codigo;
     padre.appendChild(opcion);
   }
+  function anadirUbicacion(padre,valor,identificador){
+    opcion = document.createElement("option");
+    opcion.setAttribute("value",valor);
+    textoLista = document.createTextNode(valor);
+    opcion.appendChild(textoLista);
+    opcion.id=identificador;
+    padre.appendChild(opcion);
+  }
+
 
   function anadirPaises() {
     for(var clave in valoresEnEspanol){
@@ -384,15 +461,12 @@ window.onload=function(){
     geocoder.geocode({ 'address': direccion}, geocodeResult);
   }
   function geocodeResult(results, status) {
-    // Verificamos el estatus
     if (status == 'OK') {
-        // Si hay resultados encontrados, centramos y repintamos el mapa
-        // esto para eliminar cualquier pin antes puesto
       var mapElemento = document.getElementById("map");
       mapElemento.style.position="relative";
       mapElemento.style.top="350px";
       mapElemento.style.width="99%";
-      mapElemento.style.height="220px";
+      mapElemento.style.height="300px";
         var opcionesMapa = {
             center: results[0].geometry.location,
             mapTypeId: google.maps.MapTypeId.ROADMAP,
@@ -407,7 +481,7 @@ window.onload=function(){
         var markerOptions = { position: results[0].geometry.location }
         marker.setOptions(markerOptions);
         marker.setMap(map);
-        console.log(results[0].address_components);
+       // console.log(results[0].address_components);
         for(var i =0; i < results[0].address_components.length;i++){
           var types=results[0].address_components[i].types;
           for(var j =0; j < types.length;j++){
@@ -430,7 +504,7 @@ window.onload=function(){
     } else {
         // En caso de no haber resultados o que haya ocurrido un error
         // lanzamos un mensaje con el error
-        alert("Geocoding no tuvo éxito debido a: " + status);
+        console.log("Geocoding no tuvo éxito debido a: " + status);
     }
   }
 
@@ -462,11 +536,11 @@ window.onload=function(){
     
     }
   }
-  function getLocation() {
+  function getMiLocalizacion() {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(mostrarPosicionActual);
     } else {
-      alert( "Geolocation is not supported by this browser.");
+      console.log( "Geolocation is not supported by this browser.");
     }
   }
   function mostrarPosicionActual(position) {
