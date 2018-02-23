@@ -122,7 +122,7 @@ window.onload=function(){
         
           }else{
             
-            informacion.innerHTML = primeraLetraMayuscula(ciudadActual)+","+pais;
+            informacion.innerHTML = primeraLetraMayuscula(ciudadActual)+","+query.results.channel.location.region+","+pais;
             //query.results.channel.item.condition.temp;
             informacion.style.top="100px";
             imagenActual.src="img/icons/"+query.results.channel.item.condition.code+".png";
@@ -243,7 +243,7 @@ window.onload=function(){
           
             
 
-              informacion.innerHTML = primeraLetraMayuscula(ciudadActual)+","+pais;
+              informacion.innerHTML = primeraLetraMayuscula(ciudadActual)+","+query.results.channel.location.region+","+pais;
             //query.results.channel.item.condition.temp;
             informacion.style.top="100px";
             imagenActual.src="img/icons/"+query.results.channel.item.condition.code+".png";
@@ -349,17 +349,8 @@ window.onload=function(){
     return palabra.charAt(0).toUpperCase() + palabra.slice(1);
 
   }
-  /*function mostrarMapa() {
-    var mapCanvas = document.getElementById("map");
-    mapCanvas.style.position="relative";
-    mapCanvas.style.top=parseInt(textosPrevisiones[textosPrevisiones.length-1].style.height)+parseInt(textosPrevisiones[textosPrevisiones.length-1].style.top)+25+"px";
-    var mapOptions = {
-      center: new google.maps.LatLng(51.508742, -0.120850),
-      zoom: 6
-    };
-    map = new google.maps.Map(mapCanvas, mapOptions);
-  }*/
-
+ 
+/*
   function mostrarMapa(marker,map) {
     google.maps.event.addListener(map, 'click', function(event) {
       placeMarker(map, event.latLng,mapOptions,marker);
@@ -375,7 +366,7 @@ window.onload=function(){
     var opcionesMapa = {center: myCenter, zoom: 5 ,    scrollwheel:true};
     map = new google.maps.Map(mapElemento, opcionesMapa);
     
-  }
+  }*/
 
   function placeMarker(map, location,opcionesMapa,marker) {
     markerActual=marker;
