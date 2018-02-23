@@ -473,12 +473,12 @@ window.onload=function(){
   }
   function getLocation() {
     if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showPosition);
+        navigator.geolocation.getCurrentPosition(mostrarPosicionActual);
     } else {
       alert( "Geolocation is not supported by this browser.");
     }
   }
-  function showPosition(position) {
+  function mostrarPosicionActual(position) {
     latitud=position.coords.latitude;
     longitud= position.coords.longitude;
     mostrarMapaBusqueda(latitud+","+longitud);
