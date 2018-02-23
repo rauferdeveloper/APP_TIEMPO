@@ -4,6 +4,9 @@ window.onload=function(){
     buscar=document.getElementById("buscar");
     paises = document.getElementById("paises");
     informacion=document.getElementById("informacion");
+    cuerpo =document.body;
+    cuerpo.style.backgroundSize="100%";
+    cuerpo.style.backgroundImage="url('img/fondoapp.jpg')";
     map=0;
     longitud=0;
     latitud=0;
@@ -411,6 +414,10 @@ window.onload=function(){
     var mapCanvas = document.getElementById("map");
     mapCanvas.style.position="relative";
     mapCanvas.style.top="290px";
+    mapCanvas.style.width="98%";
+    mapCanvas.style.height="400px";
+
+
     var myCenter=new google.maps.LatLng(51.508742,-0.120850);
     var mapOptions = {center: myCenter, zoom: 5 ,    scrollwheel:true};
     map = new google.maps.Map(mapCanvas, mapOptions);
@@ -439,7 +446,9 @@ window.onload=function(){
         // esto para eliminar cualquier pin antes puesto
       var mapCanvas = document.getElementById("map");
     mapCanvas.style.position="relative";
-    mapCanvas.style.top="290px";
+    mapCanvas.style.top="280px";
+    mapCanvas.style.width="98%";
+    mapCanvas.style.height="290px";
         var mapOptions = {
             center: results[0].geometry.location,
             mapTypeId: google.maps.MapTypeId.ROADMAP,
