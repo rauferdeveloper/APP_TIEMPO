@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>APP TIEMPO MUNDIAL</title>
+    <style>
+        *{
+            margin: 0;
+            padding:0;
+        }
+        #contenedor{
+            width: 720px;
+            height: 600px;
+            position: absolute;
+            background-color: aqua;
+        }
+        #descripcion{
+            width: 700px;
+            margin: 10px;
+            background-color: chartreuse;
+        }
+        #opcionesMapa{
+            float: left;
+            height: 450px;
+        }
+        #contenido{
+            width: 700px;
+            margin: 10px;
+            background-color: brown;
+
+        }
+        #opcionesBusqueda{
+            margin-left: 20px;
+            position: absolute;
+            height:420px;
+            width: 260px;
+            left: 440px;
+            background-color: chocolate;
+
+        }
+        #map{
+            background-color: darkblue;
+            width: 450px;
+            height: 400px;
+        }
+       
+       #informacion{
+           display: inline;
+           position: absolute;
+       }
+       #miUbicacion{
+           margin-left: 150px;
+           position: relative;
+           
+       }
+       #guardarUbicacionActual{
+        margin-left: 60px;
+        position: relative;
+
+       }
+       #ciudad{
+           margin-left: 10px;
+           position: absolute;
+       }
+      #buscar{
+        margin-left: 10px;
+         position: absolute;
+         margin-top: 100px;
+      }
+      #ubicacionesFavoritas{
+        position: absolute;
+        left: 0px;
+        top:175px;
+        margin-top: 20px;
+
+      }
+      #borrarFavoritas{
+          position: absolute;
+          
+      }
+    </style>
+</head>
+<body>
+    <div id="contenedor">
+        <p id="descripcion">holaa</p>
+        <div id="contenido">
+                <div id="opcionesMapa">
+                        <div id="map" ></div>
+                        <div id="informacion">holaaaaa</div>
+                        <div id="botones">
+                                <input type="button" id="miUbicacion" value="Mi Ubicación">
+                                <input type="button" name="guardarFavorita" id="guardarUbicacionActual" value="Guardar Ubicacion Actual">
+                        </div>
+                       
+                </div>
+                <div id="opcionesBusqueda">
+                        <select id="paises" name="paises" size="10"></select>
+                        <input type="search" name="ciudad" id="ciudad">
+                        <input type="button" name="buscar" id="buscar" value="Buscar" class="boton colorboton">
+                        <select id="ubicacionesFavoritas" name="ubicacionesFavoritas" size="5"></select>
+                        <input type="button" name="borrarFavoritaActual" id="borrarFavoritaActual" value="Borrar Favorita Actual">
+                        <input type="button" name="borrarTodas" id="borrarFavoritas" value="Borrar Favoritas">
+                </div>
+        </div>
+      
+        <div id="resultados"></div>
+    </div>
+</body>
+</html>

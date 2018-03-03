@@ -52,8 +52,9 @@ window.onload=function(){
     codigoActual="ES";
     paisActual="Spain";
     pais="Espa\u00f1a";
-    ciudadActual="";
-    mostrarMapaBusqueda(pais);
+    ciudadActual="madrid";
+    mostrarMapaBusqueda(ciudadActual+","+pais);
+    mostrarTiempoBusqueda();
     anadirPaises();
     for(var i =0; i < localStorage.length;i++){
       var identificador=localStorage.key(i);
@@ -81,7 +82,8 @@ window.onload=function(){
       mostrarTiempoBusqueda();
       ciudad.value="";
     }
-    
+    paises.size=5;
+
     paises.onchange=function(){
       var indice = this.selectedIndex;
       var opcionSeleccionada = this.options[indice];
