@@ -32,6 +32,18 @@ window.onload=function(){
     paisActual="Spain";
     pais="Espa\u00f1a";
     ciudadActual="madrid";
+      if(ciudad.value.length>0){
+        buscar.disabled=false;
+        buscar.className="button";
+  
+      }else{
+        buscar.disabled=true;
+        buscar.className="buttonDesactivated";
+
+  
+      }
+    
+
     mostrarMapaBusqueda(ciudadActual+","+pais);
     mostrarTiempoBusqueda();
     anadirPaises();
@@ -50,19 +62,39 @@ window.onload=function(){
           mostrarMapaBusqueda(ciudadActual+" "+pais);
           mostrarTiempoBusqueda();
           ciudad.value="";
-          buscar.disabled=false;
         
 
 
       }
+     
+    
+    }
+    document.onkeyup=function(elEvento){
+      var evento = window.event||elEvento;
+
+      if(evento.keyCode>=65||evento.keyCode<=90||evento.keyCode==8){
+        if(ciudad.value.length>0){
+          buscar.disabled=false;
+          buscar.className="button";
+    
+        }else{
+          buscar.disabled=true;
+          buscar.className="buttonDesactivated";
+
+    
+        }
+      }
     }
     buscar.onclick=function(){
-      ciudadActual=ciudad.value;
-      unicaCiudad=ciudadActual.split(",");
-        ciudadActual=unicaCiudad[0];
-      mostrarMapaBusqueda(ciudad.value+" "+pais);
-      mostrarTiempoBusqueda();
-      ciudad.value="";
+      
+        ciudadActual=ciudad.value;
+        unicaCiudad=ciudadActual.split(",");
+          ciudadActual=unicaCiudad[0];
+        mostrarMapaBusqueda(ciudad.value+" "+pais);
+        mostrarTiempoBusqueda();
+        ciudad.value="";
+    
+      
     }
     paises.size=5;
 
@@ -80,18 +112,21 @@ window.onload=function(){
         }
         resultados.removeChild(imagenActual);
         textosPrevisionActual.innerHTML="";
-        informacion.innerHTML="";
         existe=false;
       }
+      resultados.style.overflowY="hidden";
+      resultados.style.overflowX="hidden";
+      informacion.innerHTML=pais;
+      guardarUbicacionActual.disabled=true;
+      guardarUbicacionActual.className="buttonDesactivated";
       mostrarMapaBusqueda(pais);
       
       
 
     }
     guardarUbicacionActual.onclick=function(){
-      clave=localStorage.length;
-        localStorage.setItem(codigoActual+clave,ciudadActual+","+pais);
-        anadirUbicacion(ubicacionesFavoritas,ciudadActual+","+pais,codigoActual+clave);
+        localStorage.setItem(codigoActual+ciudadActual,ciudadActual+","+pais);
+        anadirUbicacion(ubicacionesFavoritas,ciudadActual+","+pais,codigoActual+ciudadActual);
         
     }
     ubicacionesFavoritas.onchange=function(){
@@ -180,10 +215,18 @@ window.onload=function(){
               resultados.removeChild(imagenActual);
               textosPrevisionActual.innerHTML="";
               existe=false;
+              resultados.style.overflowY="hidden";
+              resultados.style.overflowX="hidden";
+              guardarUbicacionActual.disabled=true;
+              guardarUbicacionActual.className="buttonDesactivated";
+
             }
 
         
           }else{
+            guardarUbicacionActual.disabled=false;
+            guardarUbicacionActual.className="button";
+
               pais=buscarPais(query.results.channel.location.country);
               if(pais==undefined){
                 pais=query.results.channel.location.country;
@@ -231,7 +274,7 @@ window.onload=function(){
                   
       
                   if(i==0){
-                    imagenes[i].style.left="140px";
+                    imagenes[i].style.left="160px";
       
                   }else{
                     imagenes[i].style.left=parseInt(imagenes[i-1].style.left)+parseInt(imagenes[i-1].style.width)+20+"px";
@@ -249,6 +292,9 @@ window.onload=function(){
                   textosPrevisiones[i].innerHTML=diaInglesAEspanol(dias[i].day)+"&nbsp"+dias[i].date.substring(0,2)+"<br> "+dias[i].high+"°"+"&nbsp "+dias[i].low+"°";
                   resultados.appendChild(imagenes[i]);
                   resultados.appendChild(textosPrevisiones[i]);
+                  resultados.style.overflowY="hidden";
+                  resultados.style.overflowX="scroll";
+
 
               }
               existe=true;
@@ -257,7 +303,6 @@ window.onload=function(){
               for(var i=0; i < dias.length;i++){
                 imagenes[i].src="img/icons/"+dias[i].code+".png";
                 textosPrevisiones[i].innerHTML=diaInglesAEspanol(dias[i].day)+"&nbsp"+dias[i].date.substring(0,2)+"<br> "+dias[i].high+"°"+"&nbsp "+dias[i].low+"°";
-             
               }
 
 
@@ -266,6 +311,10 @@ window.onload=function(){
           }
         }
       }
+      buscar.disabled=true;
+      buscar.className="buttonDesactivated";
+
+
     }
   }
 
@@ -305,6 +354,11 @@ window.onload=function(){
               resultados.removeChild(imagenActual);
               textosPrevisionActual.innerHTML="";
               existe=false;
+              resultados.style.overflowY="hidden";
+              resultados.style.overflowX="hidden";
+              guardarUbicacionActual.disabled=true;
+              guardarUbicacionActual.className="buttonDesactivated";
+
             }
 
         
@@ -314,8 +368,9 @@ window.onload=function(){
                 pais=query.results.channel.location.country;
               }
               ciudadActual=query.results.channel.location.city;
-          
-            
+              guardarUbicacionActual.disabled=false;
+              guardarUbicacionActual.className="button";
+  
 
             informacion.innerHTML = primeraLetraMayuscula(ciudadActual)+",<br>"+pais;
             
@@ -338,7 +393,8 @@ window.onload=function(){
 
             resultados.appendChild(imagenActual);
             resultados.appendChild(textosPrevisionActual);
-
+            resultados.style.overflowY="hidden";
+            resultados.style.overflowX="scroll";
           
             dias=query;
             dias=query.results.channel.item.forecast;
@@ -356,7 +412,7 @@ window.onload=function(){
                   
       
                   if(i==0){
-                    imagenes[i].style.left="140px";
+                    imagenes[i].style.left="160px";
       
                   }else{
                     imagenes[i].style.left=parseInt(imagenes[i-1].style.left)+parseInt(imagenes[i-1].style.width)+10+"px";
@@ -373,7 +429,7 @@ window.onload=function(){
                   textosPrevisiones[i].style.color="white";
 
                   textosPrevisiones[i].innerHTML=diaInglesAEspanol(dias[i].day)+"&nbsp"+dias[i].date.substring(0,2)+"<br> "+dias[i].high+"°"+"&nbsp "+dias[i].low+"°";
-                  alert(diaInglesAEspanol(dias[i].day));
+                 // alert(diaInglesAEspanol(dias[i].day));
                   resultados.appendChild(imagenes[i]);
                   resultados.appendChild(textosPrevisiones[i]);
                     //
@@ -548,7 +604,31 @@ window.onload=function(){
   }
   function getMiLocalizacion() {
     if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(mostrarPosicionActual);
+      
+        navigator.geolocation.getCurrentPosition(function(objPosition)
+		{
+      mostrarPosicionActual(objPosition)
+		}, function(objPositionError)
+		{
+			switch (objPositionError.code)
+			{
+        case objPositionError.PERMISSION_DENIED:
+        alert( "No se ha permitido el acceso a la posición del usuario.");
+      break;
+      case objPositionError.POSITION_UNAVAILABLE:
+        alert( "No se ha podido acceder a la información de su posición.");
+      break;
+      case objPositionError.TIMEOUT:
+        alert( "El servicio ha tardado demasiado tiempo en responder.");
+      break;
+      default:
+      alert("Error desconocido.");
+    
+			}
+		}, {
+			maximumAge: 75000,
+			timeout: 15000
+		});
     } else {
       console.log( "Geolocation is not supported by this browser.");
     }
