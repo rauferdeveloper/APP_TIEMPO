@@ -3,103 +3,190 @@
 <head>
     <meta charset="UTF-8">
     <title>APP TIEMPO MUNDIAL</title>
+    <script src="js/app.js"></script>
+    <script src="js/paises.js"></script>
+    <script src="js/paisesen.js"></script>
+    <script src="js/diases.js"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAJYBfdVFUaj7KVFsJ317ckoFQNJEpsVk0"
+    type="text/javascript"></script>
     <style>
         *{
             margin: 0;
             padding:0;
+            
         }
         #contenedor{
             width: 720px;
-            height: 600px;
+            height: 650px;
             position: absolute;
-            background-color: aqua;
+            background-color: black;
         }
         #descripcion{
             width: 700px;
             margin: 10px;
-            background-color: chartreuse;
+            margin-bottom: 5px;
+            font-size: 15px;
+            height: 35px;
+            color:white;
+
         }
         #opcionesMapa{
             float: left;
-            height: 450px;
         }
         #contenido{
             width: 700px;
             margin: 10px;
-            background-color: brown;
+            height: 400px;
+            position: absolute;
 
         }
         #opcionesBusqueda{
             margin-left: 20px;
             position: absolute;
-            height:420px;
-            width: 260px;
+            height:370px;
+            width: 240px;
             left: 440px;
-            background-color: chocolate;
 
         }
         #map{
-            background-color: darkblue;
             width: 450px;
-            height: 400px;
+            height: 350px;
         }
        
        #informacion{
-           display: inline;
            position: absolute;
+           font-size:14px;
+           color:white;
+
        }
        #miUbicacion{
-           margin-left: 150px;
+           margin-left: 160px;
            position: relative;
+           font-size: 14px;
+           
+
            
        }
        #guardarUbicacionActual{
-        margin-left: 60px;
+        margin-left: 25px;
         position: relative;
+        font-size: 14px;
+
 
        }
        #ciudad{
-           margin-left: 10px;
+           left: 40px;
            position: absolute;
+           top:95px;
+           font-size: 16px;
+           height: 30px;
+           width:150px;
+
        }
       #buscar{
-        margin-left: 10px;
+        left: 40px;
          position: absolute;
-         margin-top: 100px;
+         top: 135px;
+         font-size: 16px;
+         width:150px;
+         height: 30px;
       }
       #ubicacionesFavoritas{
         position: absolute;
         left: 0px;
-        top:175px;
-        margin-top: 20px;
+        top:160px;
+        margin-top: 10px;
+        font-size: 16px;
+        width:225px;
+
 
       }
       #borrarFavoritas{
           position: absolute;
+          top:330px;
+          left : 40px;
+          font-size: 16px;
+          height: 30px;
+          width: 150px;
+
           
       }
+      #borrarFavoritaActual{
+        position: absolute;
+          top:290px;
+          left : 40px;
+          font-size: 15px;
+          height: 30px;
+
+      }
+      #paises{
+        width:225px;
+      }
+      #resultados{
+          top: 440px;
+          width: 710px;
+          height: 200px;
+          position: absolute;
+          margin: 5px;
+          overflow-y: hidden;
+          overflow-x: scroll;
+
+      }
+      .button {
+        border-top: 1px solid #96d1f8;
+        background: #65a9d7;
+        background: -webkit-gradient(linear, left top, left bottom, from(#3e779d), to(#65a9d7));
+        background: -webkit-linear-gradient(top, #3e779d, #65a9d7);
+        background: -moz-linear-gradient(top, #3e779d, #65a9d7);
+        background: -ms-linear-gradient(top, #3e779d, #65a9d7);
+        background: -o-linear-gradient(top, #3e779d, #65a9d7);
+        padding: 2px ;
+        -webkit-border-radius: 8px;
+        -moz-border-radius: 8px;
+        border-radius: 8px;
+        -webkit-box-shadow: rgba(0,0,0,1) 0 1px 0;
+        -moz-box-shadow: rgba(0,0,0,1) 0 1px 0;
+        box-shadow: rgba(0,0,0,1) 0 1px 0;
+        text-shadow: rgba(0,0,0,.4) 0 1px 0;
+        color: black;
+        font-family: Georgia, serif;
+        text-decoration: none;
+        vertical-align: middle;
+        }
+        .button:hover {
+        border-top-color: #282d78;
+        background: #282d78;
+        color: #ccc;
+        }
+        .button:active {
+        border-top-color: #1b435e;
+        background: #1b435e;
+        }
+        
     </style>
 </head>
 <body>
     <div id="contenedor">
-        <p id="descripcion">holaa</p>
+        <p id="descripcion">Bienvenido/a a la app del tiempo aqui podrás ver el tiempo de cualquier lugar del mundo puedes pinchar en el mapa o seleccionar un pais y buscar el lugar que quieras.
+            También puedes guardar las ubicaciones que quieras.</p>
         <div id="contenido">
                 <div id="opcionesMapa">
                         <div id="map" ></div>
-                        <div id="informacion">holaaaaa</div>
+                        <div id="informacion">
+                        </div>
                         <div id="botones">
-                                <input type="button" id="miUbicacion" value="Mi Ubicación">
-                                <input type="button" name="guardarFavorita" id="guardarUbicacionActual" value="Guardar Ubicacion Actual">
+                                <input type="button" class="button" id="miUbicacion" value="Mi Ubicación">
+                                <input type="button" class="button" name="guardarFavorita" id="guardarUbicacionActual" value="Guardar Ubicacion Actual">
                         </div>
                        
                 </div>
                 <div id="opcionesBusqueda">
-                        <select id="paises" name="paises" size="10"></select>
-                        <input type="search" name="ciudad" id="ciudad">
-                        <input type="button" name="buscar" id="buscar" value="Buscar" class="boton colorboton">
+                        <select id="paises" name="paises" size="5"></select>
+                        <input type="search" name="ciudad" id="ciudad" placeholder="Ciudad a buscar...">
+                        <input type="button" name="buscar" id="buscar" value="Buscar" class="button">
                         <select id="ubicacionesFavoritas" name="ubicacionesFavoritas" size="5"></select>
-                        <input type="button" name="borrarFavoritaActual" id="borrarFavoritaActual" value="Borrar Favorita Actual">
-                        <input type="button" name="borrarTodas" id="borrarFavoritas" value="Borrar Favoritas">
+                        <input type="button" name="borrarFavoritaActual" id="borrarFavoritaActual" value="Borrar Favorita Actual" class="button">
+                        <input type="button" name="borrarTodas" id="borrarFavoritas" value="Borrar Favoritas" class="button">
                 </div>
         </div>
       

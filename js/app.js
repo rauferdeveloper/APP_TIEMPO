@@ -1,5 +1,4 @@
 window.onload=function(){
-    cuerpo=document.body;
     ciudad = document.getElementById("ciudad");
     buscar=document.getElementById("buscar");
     borrarFavoritas=document.getElementById("borrarFavoritas")
@@ -8,31 +7,11 @@ window.onload=function(){
     ubicacionesFavoritas=document.getElementById("ubicacionesFavoritas");
     borrarFavoritaActual=document.getElementById("borrarFavoritaActual");
     miUbicacion=document.getElementById("miUbicacion");
-    ubicacionesFavoritas.style.left="650px";
-    txtUbicacionesFavoritas.style.left="450px";
-    guardarUbicacionActual.style.left="450px";
-    guardarUbicacionActual.style.position="absolute";
-    guardarUbicacionActual.style.top="2px";
-    txtUbicacionesFavoritas.style.top="5px";
-    ubicacionesFavoritas.style.top="20px";
-    ubicacionesFavoritas.style.position="absolute";
-    txtUbicacionesFavoritas.style.position="absolute";
-    txtUbicacionesFavoritas.style.color="aqua";
-    borrarFavoritas.style.top="5%";
-    borrarFavoritas.style.position="absolute";
-    borrarFavoritas.style.left="700px";
-    borrarFavoritaActual.style.marginTop="9%";
-    borrarFavoritaActual.style.position="absolute";
-    borrarFavoritaActual.style.left="700px";
-    miUbicacion.style.top="65px";
-    miUbicacion.style.position="absolute";
-    miUbicacion.style.left="700px";
     informacion=document.getElementById("informacion");
+    resultados=document.getElementById("resultados");
     clave=0;
     paises = document.getElementById("paises");
-    cuerpo =document.body;
-    cuerpo.style.backgroundSize="100%";
-    cuerpo.style.backgroundImage="url('img/fondoapp.jpg')";
+   contenedor=document.getElementById("contenedor");
 
     map=0;
     longitud=0;
@@ -64,12 +43,15 @@ window.onload=function(){
     document.onkeydown=function(elEvento){
       var evento = window.event||elEvento;
       if(evento.keyCode==13){
-        ciudadActual=ciudad.value;
-        unicaCiudad=ciudadActual.split(",");
-        ciudadActual=unicaCiudad[0];
-        mostrarMapaBusqueda(ciudadActual+" "+pais);
-        mostrarTiempoBusqueda();
-        ciudad.value="";
+        
+          ciudadActual=ciudad.value;
+          unicaCiudad=ciudadActual.split(",");
+          ciudadActual=unicaCiudad[0];
+          mostrarMapaBusqueda(ciudadActual+" "+pais);
+          mostrarTiempoBusqueda();
+          ciudad.value="";
+          buscar.disabled=false;
+        
 
 
       }
@@ -91,12 +73,12 @@ window.onload=function(){
       pais=opcionSeleccionada.text;
       if(existe){
         for(var i=0; i < imagenes.length;i++){
-          cuerpo.removeChild(imagenes[i]);
-          cuerpo.removeChild(textosPrevisiones[i]);
+          resultados.removeChild(imagenes[i]);
+          resultados.removeChild(textosPrevisiones[i]);
 
           
         }
-        cuerpo.removeChild(imagenActual);
+        resultados.removeChild(imagenActual);
         textosPrevisionActual.innerHTML="";
         informacion.innerHTML="";
         existe=false;
@@ -127,17 +109,33 @@ window.onload=function(){
 
     }
       borrarFavoritas.onclick=function(){
-        localStorage.clear();
-        while (ubicacionesFavoritas.length > 0) {
-          ubicacionesFavoritas.remove(ubicacionesFavoritas.length-1);
-      }
+        if(localStorage.length>0){
+          localStorage.clear();
+          while (ubicacionesFavoritas.length > 0) {
+            ubicacionesFavoritas.remove(ubicacionesFavoritas.length-1);
+          }
+        }else{
+          alert("No tienes ubicaciones favoritas")
+
+        }
+      
     }
     borrarFavoritaActual.onclick=function(){
-      var indice = ubicacionesFavoritas.selectedIndex;
-      var opcionSeleccionada = ubicacionesFavoritas.options[indice];
-      idActual=opcionSeleccionada.id;
-      localStorage.removeItem(idActual);
-      ubicacionesFavoritas.remove(indice);
+      if(ubicacionesFavoritas.length>0){
+        var indice = ubicacionesFavoritas.selectedIndex;
+        if(indice==null||indice == undefined||indice!=0){
+          alert("No has seleccionado ninguna ubicacion favorita")
+        }else{
+          var opcionSeleccionada = ubicacionesFavoritas.options[indice];
+          idActual=opcionSeleccionada.id;
+          localStorage.removeItem(idActual);
+          ubicacionesFavoritas.remove(indice);
+        }
+       
+      }else{
+        alert("No tienes ubicaciones favoritas")
+      }
+
       
     }
     miUbicacion.onclick=function(){
@@ -171,44 +169,50 @@ window.onload=function(){
           query=objetoJson.query;
           
           if(query.count==0||query.results.channel.location.country!=paisActual&&codigoActual!="EA"){
-            informacion.innerHTML = "La ubicación no corresponde con el país";
+            informacion.innerHTML = "Ubicación no disponible";
             if(existe){
               for(var i=0; i < imagenes.length;i++){
-                cuerpo.removeChild(imagenes[i]);
-                cuerpo.removeChild(textosPrevisiones[i]);
+                resultados.removeChild(imagenes[i]);
+                resultados.removeChild(textosPrevisiones[i]);
 
                 
               }
-              cuerpo.removeChild(imagenActual);
+              resultados.removeChild(imagenActual);
               textosPrevisionActual.innerHTML="";
               existe=false;
             }
 
         
           }else{
-            
-            informacion.innerHTML = primeraLetraMayuscula(ciudadActual)+","+query.results.channel.location.region+","+pais;
+              pais=buscarPais(query.results.channel.location.country);
+              if(pais==undefined){
+                pais=query.results.channel.location.country;
+              }
+              ciudadActual=query.results.channel.location.city;
           
+            
+
+              informacion.innerHTML = primeraLetraMayuscula(ciudadActual)+",<br>"+pais;
+            
             //query.results.channel.item.condition.temp;
-            informacion.style.top="100px";
-            informacion.style.color="aqua";
-
+         
             imagenActual.src="img/icons/"+query.results.channel.item.condition.code+".png";
-            imagenActual.style.width="100px";
-            imagenActual.style.height="100px";
+            imagenActual.style.width="90px";
+            imagenActual.style.height="90px";
             imagenActual.style.position="absolute";
-            imagenActual.style.top="100px";
+            imagenActual.style.top="0px";
             textosPrevisionActual.style.position="absolute";
-            textosPrevisionActual.style.top=parseInt(imagenActual.style.top)+"px";
-            textosPrevisionActual.style.width="50%";
-            textosPrevisionActual.style.height="70px";
-            textosPrevisionActual.style.left=parseInt(imagenActual.style.width)+20+"px";
-            textosPrevisionActual.style.padding="20px";
+            textosPrevisionActual.style.top=parseInt(imagenActual.style.top)+parseInt(imagenActual.style.height)-10+"px";
+            textosPrevisionActual.style.width="500px";
+            textosPrevisionActual.style.height="10px";
+            textosPrevisionActual.style.padding="10px";
+            textosPrevisionActual.style.color="white";
 
-            textosPrevisionActual.innerHTML="Temperatura actual : "+query.results.channel.item.condition.temp+"<br>"+"Humedad: "+query.results.channel.atmosphere.humidity+"<br>Viento: "+query.results.channel.wind.speed;
+            textosPrevisionActual.innerHTML="Temperatura actual : "+query.results.channel.item.condition.temp+"<br>"+"Humedad: "+query.results.channel.atmosphere.humidity+"<br> Viento: "+query.results.channel.wind.speed+"<br>"+primeraLetraMayuscula(condiciones[query.results.channel.item.condition.code]);
+            textosPrevisionActual.style.fontSize="14px";
 
-            cuerpo.appendChild(imagenActual);
-            cuerpo.appendChild(textosPrevisionActual);
+            resultados.appendChild(imagenActual);
+            resultados.appendChild(textosPrevisionActual);
 
           
             dias=query;
@@ -221,27 +225,30 @@ window.onload=function(){
                   imagenes[i].style.position="absolute";
 
                   imagenes[i].src="img/icons/"+dias[i].code+".png";
-                  imagenes[i].style.width="80px";
-                  imagenes[i].style.height="80px";
-                  imagenes[i].style.top=parseInt(textosPrevisionActual.style.height)+parseInt(textosPrevisionActual.style.top)+75+"px";
+                  imagenes[i].style.width="75px";
+                  imagenes[i].style.height="75px";
+                  imagenes[i].style.top="30px";
                   
       
                   if(i==0){
-                    imagenes[i].style.left="5px";
+                    imagenes[i].style.left="140px";
       
                   }else{
-                    imagenes[i].style.left=parseInt(imagenes[i-1].style.left)+parseInt(imagenes[i-1].style.width)+55+"px";
+                    imagenes[i].style.left=parseInt(imagenes[i-1].style.left)+parseInt(imagenes[i-1].style.width)+20+"px";
       
                   }
+               
                   textosPrevisiones[i]=document.createElement("p");
                   textosPrevisiones[i].style.position="absolute";
                   textosPrevisiones[i].style.top=parseInt(imagenes[i].style.height)+parseInt(imagenes[i].style.top)+10+"px";
-                  textosPrevisiones[i].style.width="10%";
-                  textosPrevisiones[i].style.height="70px";
-                  textosPrevisiones[i].style.left=imagenes[i].style.left;
-                  textosPrevisiones[i].innerHTML=dias[i].date+"<br> max "+dias[i].high+"°"+"&nbspmin "+dias[i].low+"°"+"<br>"+primeraLetraMayuscula(condiciones[dias[i].code]);
-                  cuerpo.appendChild(imagenes[i]);
-                  cuerpo.appendChild(textosPrevisiones[i]);
+                  textosPrevisiones[i].style.width="80px";
+                  textosPrevisiones[i].style.height="20px";
+                  textosPrevisiones[i].style.fontSize="14px";
+                  textosPrevisiones[i].style.color="white";
+                  textosPrevisiones[i].style.left=parseInt(imagenes[i].style.left)+10+"px";
+                  textosPrevisiones[i].innerHTML=diaInglesAEspanol(dias[i].day)+"&nbsp"+dias[i].date.substring(0,2)+"<br> "+dias[i].high+"°"+"&nbsp "+dias[i].low+"°";
+                  resultados.appendChild(imagenes[i]);
+                  resultados.appendChild(textosPrevisiones[i]);
 
               }
               existe=true;
@@ -249,15 +256,14 @@ window.onload=function(){
             }else{
               for(var i=0; i < dias.length;i++){
                 imagenes[i].src="img/icons/"+dias[i].code+".png";
-                textosPrevisiones[i].innerHTML=dias[i].date+"<br> max "+dias[i].high+"°"+"&nbspmin "+dias[i].low+"°"+"<br>"+primeraLetraMayuscula(condiciones[dias[i].code]);
-
+                textosPrevisiones[i].innerHTML=diaInglesAEspanol(dias[i].day)+"&nbsp"+dias[i].date.substring(0,2)+"<br> "+dias[i].high+"°"+"&nbsp "+dias[i].low+"°";
+             
               }
 
 
             }
 
           }
-        
         }
       }
     }
@@ -288,15 +294,15 @@ window.onload=function(){
           query=objetoJson.query;
           
           if(query.count==0){
-            informacion.innerHTML = "La ubicación no corresponde con el país";
+            informacion.innerHTML = "Ubicación no disponible";
             if(existe){
               for(var i=0; i < imagenes.length;i++){
-                cuerpo.removeChild(imagenes[i]);
-                cuerpo.removeChild(textosPrevisiones[i]);
+                resultados.removeChild(imagenes[i]);
+                resultados.removeChild(textosPrevisiones[i]);
 
                 
               }
-              cuerpo.removeChild(imagenActual);
+              resultados.removeChild(imagenActual);
               textosPrevisionActual.innerHTML="";
               existe=false;
             }
@@ -311,27 +317,27 @@ window.onload=function(){
           
             
 
-              informacion.innerHTML = primeraLetraMayuscula(ciudadActual)+","+query.results.channel.location.region+","+pais;
+            informacion.innerHTML = primeraLetraMayuscula(ciudadActual)+",<br>"+pais;
             
             //query.results.channel.item.condition.temp;
-            informacion.style.top="100px";
-            informacion.style.color="aqua";
+         
             imagenActual.src="img/icons/"+query.results.channel.item.condition.code+".png";
-            imagenActual.style.width="100px";
-            imagenActual.style.height="100px";
+            imagenActual.style.width="90px";
+            imagenActual.style.height="90px";
             imagenActual.style.position="absolute";
-            imagenActual.style.top="100px";
+            imagenActual.style.top="0px";
             textosPrevisionActual.style.position="absolute";
-            textosPrevisionActual.style.top=parseInt(imagenActual.style.top)+"px";
-            textosPrevisionActual.style.width="50%";
-            textosPrevisionActual.style.height="70px";
-            textosPrevisionActual.style.left=parseInt(imagenActual.style.width)+20+"px";
-            textosPrevisionActual.style.padding="20px";
+            textosPrevisionActual.style.top=parseInt(imagenActual.style.top)+parseInt(imagenActual.style.height)-10+"px";
+            textosPrevisionActual.style.width="500px";
+            textosPrevisionActual.style.height="10px";
+            textosPrevisionActual.style.padding="10px";
 
-            textosPrevisionActual.innerHTML="Temperatura actual : "+query.results.channel.item.condition.temp+"<br>"+"Humedad: "+query.results.channel.atmosphere.humidity+"<br>Viento: "+query.results.channel.wind.speed;
+            textosPrevisionActual.innerHTML="Temperatura actual : "+query.results.channel.item.condition.temp+"<br>"+"Humedad: "+query.results.channel.atmosphere.humidity+"<br> Viento: "+query.results.channel.wind.speed+"<br>"+primeraLetraMayuscula(condiciones[query.results.channel.item.condition.code]);
+            textosPrevisionActual.style.fontSize="14px";
+            textosPrevisionActual.style.color="white";
 
-            cuerpo.appendChild(imagenActual);
-            cuerpo.appendChild(textosPrevisionActual);
+            resultados.appendChild(imagenActual);
+            resultados.appendChild(textosPrevisionActual);
 
           
             dias=query;
@@ -344,35 +350,40 @@ window.onload=function(){
                   imagenes[i].style.position="absolute";
 
                   imagenes[i].src="img/icons/"+dias[i].code+".png";
-                  imagenes[i].style.width="80px";
-                  imagenes[i].style.height="80px";
-                  imagenes[i].style.top=parseInt(textosPrevisionActual.style.height)+parseInt(textosPrevisionActual.style.top)+75+"px";
+                  imagenes[i].style.width="75px";
+                  imagenes[i].style.height="75px";
+                  imagenes[i].style.top="30px";
                   
       
                   if(i==0){
-                    imagenes[i].style.left="5px";
+                    imagenes[i].style.left="140px";
       
                   }else{
-                    imagenes[i].style.left=parseInt(imagenes[i-1].style.left)+parseInt(imagenes[i-1].style.width)+55+"px";
+                    imagenes[i].style.left=parseInt(imagenes[i-1].style.left)+parseInt(imagenes[i-1].style.width)+10+"px";
       
                   }
+                
                   textosPrevisiones[i]=document.createElement("p");
                   textosPrevisiones[i].style.position="absolute";
                   textosPrevisiones[i].style.top=parseInt(imagenes[i].style.height)+parseInt(imagenes[i].style.top)+10+"px";
-                  textosPrevisiones[i].style.width="10%";
-                  textosPrevisiones[i].style.height="70px";
-                  textosPrevisiones[i].style.left=imagenes[i].style.left;
-                  textosPrevisiones[i].innerHTML=dias[i].date+"<br> max "+dias[i].high+"°"+"&nbspmin "+dias[i].low+"°"+"<br>"+primeraLetraMayuscula(condiciones[dias[i].code]);
-                  cuerpo.appendChild(imagenes[i]);
-                  cuerpo.appendChild(textosPrevisiones[i]);
+                  textosPrevisiones[i].style.width="75px";
+                  textosPrevisiones[i].style.height="20px";
+                  textosPrevisiones[i].style.left=parseInt(imagenes[i].style.left)+10+"px";
+                  textosPrevisiones[i].style.fontSize="14px";
+                  textosPrevisiones[i].style.color="white";
 
+                  textosPrevisiones[i].innerHTML=diaInglesAEspanol(dias[i].day)+"&nbsp"+dias[i].date.substring(0,2)+"<br> "+dias[i].high+"°"+"&nbsp "+dias[i].low+"°";
+                  alert(diaInglesAEspanol(dias[i].day));
+                  resultados.appendChild(imagenes[i]);
+                  resultados.appendChild(textosPrevisiones[i]);
+                    //
               }
               existe=true;
 
             }else{
               for(var i=0; i < dias.length;i++){
                 imagenes[i].src="img/icons/"+dias[i].code+".png";
-                textosPrevisiones[i].innerHTML=dias[i].date+"<br> max "+dias[i].high+"°"+"&nbspmin "+dias[i].low+"°"+"<br>"+primeraLetraMayuscula(condiciones[dias[i].code]);
+                textosPrevisiones[i].innerHTML=diaInglesAEspanol(dias[i].day)+"&nbsp"+dias[i].date.substring(0,2)+"<br> "+dias[i].high+"°"+"&nbsp "+dias[i].low+"°";
              
               }
 
@@ -465,10 +476,7 @@ window.onload=function(){
   function geocodeResult(results, status) {
     if (status == 'OK') {
       var mapElemento = document.getElementById("map");
-      mapElemento.style.position="relative";
-      mapElemento.style.top="350px";
-      mapElemento.style.width="99%";
-      mapElemento.style.height="300px";
+    
         var opcionesMapa = {
             center: results[0].geometry.location,
             mapTypeId: google.maps.MapTypeId.ROADMAP,
